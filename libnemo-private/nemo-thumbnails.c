@@ -44,7 +44,7 @@
 #include <sys/wait.h>
 #include <unistd.h>
 #include <signal.h>
-#include <libcinnamon-desktop/gnome-desktop-thumbnail.h>
+#include <libgnome-desktop/gnome-desktop-thumbnail.h>
 
 #include "nemo-file-private.h"
 
@@ -663,10 +663,4 @@ thumbnail_thread_start (gpointer data)
 				 thumbnail_thread_notify_file_changed,
 				 g_strdup (info->image_uri), NULL);
 	}
-}
-
-gboolean
-nemo_thumbnail_factory_check_status (void)
-{
-    return gnome_desktop_thumbnail_cache_check_permissions (get_thumbnail_factory (), TRUE);
 }

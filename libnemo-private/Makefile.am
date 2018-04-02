@@ -12,6 +12,7 @@ AM_CPPFLAGS = 						\
 	$(WARN_CFLAGS)				\
 	$(DISABLE_DEPRECATED_CFLAGS)			\
 	$(TRACKER_CFLAGS)				\
+	`pkg-config --cflags zeitgeist-1.0`	\
 	-DDATADIR=\""$(datadir)"\" 			\
 	-DSYSCONFDIR=\""$(sysconfdir)"\" 			\
 	-DNEMO_DATADIR=\""$(datadir)/nemo"\" 	\
@@ -45,6 +46,7 @@ dependency_static_libs = \
 libnemo_private_la_LDFLAGS =	\
 	$(WARN_LDFLAGS)			\
 	-no-undefined			\
+	`pkg-config --libs zeitgeist-1.0`	\
 	$(NULL)
 
 libnemo_private_la_LIBADD =		\
@@ -85,6 +87,8 @@ libnemo_private_la_SOURCES = \
 	nemo-debug.h \
 	nemo-default-file-icon.c \
 	nemo-default-file-icon.h \
+	nemo-desktop-background.c \
+	nemo-desktop-background.h \
 	nemo-desktop-directory-file.c \
 	nemo-desktop-directory-file.h \
 	nemo-desktop-directory.c \

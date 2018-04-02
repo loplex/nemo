@@ -93,7 +93,6 @@ struct NemoFileDetails
 	GIcon *icon;
 	
 	char *thumbnail_path;
-    eel_boolean_bit thumbnail_access_problem : 1;
 	GdkPixbuf *thumbnail;
 	time_t thumbnail_mtime;
     gint thumbnail_throttle_count;

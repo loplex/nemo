@@ -493,8 +493,6 @@ char *   nemo_file_get_detailed_type_as_string    (NemoFile          *file);
 
 gchar *  nemo_file_construct_tooltip              (NemoFile *file, NemoFileTooltipFlags flags);
 
-gboolean nemo_file_has_thumbnail_access_problem   (NemoFile *file);
-
 gint     nemo_file_get_monitor_number             (NemoFile *file);
 void     nemo_file_set_monitor_number             (NemoFile *file, gint monitor);
 void     nemo_file_get_position                   (NemoFile *file, GdkPoint *point);

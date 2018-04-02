@@ -95,12 +95,6 @@ void nemo_application_notify_unmount_done (NemoApplication *application,
                                                const gchar *message);
 gboolean nemo_application_check_required_directory (NemoApplication *application,
                                                     gchar           *path);
-void nemo_application_check_thumbnail_cache (NemoApplication *application);
-gboolean nemo_application_get_cache_bad (NemoApplication *application);
-void nemo_application_clear_cache_flag (NemoApplication *application);
-void nemo_application_set_cache_flag (NemoApplication *application);
-void nemo_application_ignore_cache_problem (NemoApplication *application);
-gboolean nemo_application_get_cache_problem_ignored (NemoApplication *application);
 gboolean nemo_application_get_show_desktop (NemoApplication *application);
 
 #endif /* __NEMO_APPLICATION_H__ */

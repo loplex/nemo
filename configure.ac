@@ -3,7 +3,7 @@ AC_PREREQ(2.54)
 dnl ===========================================================================
 
 m4_define(glib_minver,                 2.37.3)
-m4_define(cinnamon_desktop_minver,     2.6.1)
+m4_define(gnome_desktop_minver,         3.0.0)
 m4_define(pango_minver,                1.28.3)
 m4_define(gtk_minver,                  3.9.10)
 m4_define(xml_minver,                  2.7.8)
@@ -12,6 +12,8 @@ m4_define(exempi_minver,               2.2.0)
 m4_define(notify_minver,               0.7.0)
 m4_define(glib_mime_ver,               2.34.0)
 m4_define(xapps_minver,                1.0.4)
+m4_define(unity_minver,                4.0.0)
+m4_define(dbusmenu_minver,             0.4.90)
 
 dnl 1. If the library code has changed at all since last release, then increment revision.
 dnl 2. If any interfaces have been added, then increment current and set revision to 0.
@@ -175,6 +177,28 @@ AM_CONDITIONAL(ENABLE_EMPTY_VIEW, test "x$ENABLE_EMPTY_VIEW" = "x1")
 
 dnl ==========================================================================
 
+AM_CONDITIONAL(HAVE_UNITY, false)
+
+AC_ARG_ENABLE(unity,
+    AC_HELP_STRING([--disable-unity], [build without unity launcher support]))
+
+msg_unity=no
+if test "x$enable_unity" != "xno"; then
+    PKG_CHECK_MODULES(UNITY,
+        [unity >= unity_minver
+         dbusmenu-glib-0.4 >= dbusmenu_minver], [
+            AM_CONDITIONAL(HAVE_UNITY, 1)
+            AC_DEFINE(HAVE_UNITY, 1, [Have Unity])
+            ]
+            msg_unity=yes,
+            [AM_CONDITIONAL(HAVE_UNITY, 0)
+            ])
+        AC_SUBST(UNITY_CFLAGS)
+        AC_SUBST(UNITY_LIBS)
+fi
+
+dnl ==========================================================================
+
 m4_ifdef([AX_COMPILER_FLAGS],
 	 [AX_COMPILER_FLAGS([WARN_CFLAGS],[WARN_LDFLAGS])])
 
@@ -218,7 +242,7 @@ AC_SUBST(BASE_LIBS)
 dnl common libs (eel, nemo)
 PKG_CHECK_MODULES(COMMON, [
 	gail-3.0
-	cinnamon-desktop >= cinnamon_desktop_minver
+	gnome-desktop-3.0 >= gnome_desktop_minver
 	libxml-2.0 >= xml_minver
 	x11
 ])
@@ -232,7 +256,7 @@ PKG_CHECK_MODULES(NEMO, [
 	gmodule-no-export-2.0 >= glib_minver
 	gio-2.0 >= glib_minver
 	gio-unix-2.0 >= glib_minver
-	cinnamon-desktop
+	gsettings-desktop-schemas
 	xapp >= xapps_minver
 	libnotify >= notify_minver
 ])
@@ -295,6 +319,7 @@ nemo-$VERSION:
 	compiler:		${CC}
 	libexif support:	$msg_libexif
 	libexempi support:	$msg_xmp
+	Unity support:          $msg_unity
 	Tracker support:	$build_tracker
 
         debugging support:      ${enable_debug}

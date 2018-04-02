@@ -67,7 +67,6 @@
 #include <time.h>
 #include <unistd.h>
 #include <sys/stat.h>
-#include <errno.h>
 
 #ifdef HAVE_SELINUX
 #include <selinux/selinux.h>
@@ -90,6 +89,9 @@
 #else
 #define DEBUG_REF_PRINTF printf
 #endif
+
+#include <zeitgeist.h>
+#define ZEITGEIST_NEMO_ACTOR "application://nemo.desktop"
 
 /* Files that start with these characters sort after files that don't. */
 #define SORT_LAST_CHAR1 '.'
@@ -1776,6 +1778,30 @@ rename_get_info_callback (GObject *source_object,
 		g_free (old_name);
 		
 		new_uri = nemo_file_get_uri (op->file);
+		
+		// Send event to Zeitgeist
+		ZeitgeistLog *log = zeitgeist_log_get_default ();
+		gchar *origin = g_path_get_dirname (new_uri);
+		ZeitgeistSubject *subject = zeitgeist_subject_new_full (
+			old_uri,
+			NULL, // subject interpretation - auto-guess
+			NULL, // subject manifestation - auto-guess
+			g_file_info_get_content_type (new_info), // const char*
+			origin,
+			new_name,
+			NULL // storage - auto-guess
+		);
+		zeitgeist_subject_set_current_uri (subject, new_uri);
+		g_free (origin);
+		// FIXME: zeitgeist_subject_set_current_uri ();
+		ZeitgeistEvent *event = zeitgeist_event_new_full (
+			ZEITGEIST_ZG_MOVE_EVENT,
+			ZEITGEIST_ZG_USER_ACTIVITY,
+			ZEITGEIST_NEMO_ACTOR,
+			subject, NULL);
+		zeitgeist_log_insert_events_no_reply (log, event, NULL);
+		// ---
+
 		nemo_directory_moved (old_uri, new_uri);
 		g_free (new_uri);
 		g_free (old_uri);
@@ -2144,18 +2170,6 @@ int cached_thumbnail_size;
 static int show_image_thumbs;
 
 static gboolean
-access_ok (const gchar *path)
-{
-    if (g_access (path, R_OK|W_OK) != 0) {
-        if (errno != ENOENT && errno != EFAULT) {
-            return FALSE;
-        }
-    }
-
-    return TRUE;
-}
-
-static gboolean
 update_info_internal (NemoFile *file,
 		      GFileInfo *info,
 		      gboolean update_name)
@@ -2197,8 +2211,6 @@ update_info_internal (NemoFile *file,
 	}
 
 	file->details->file_info_is_up_to_date = TRUE;
-
-    file->details->thumbnail_access_problem = FALSE;
 
 	/* FIXME bugzilla.gnome.org 42044: Need to let links that
 	 * point to the old name know that the file has been renamed.
@@ -2492,13 +2504,7 @@ update_info_internal (NemoFile *file,
 	if (g_strcmp0 (file->details->thumbnail_path, thumbnail_path) != 0) {
 		changed = TRUE;
 		g_free (file->details->thumbnail_path);
-
-        if (show_image_thumbs != NEMO_SPEED_TRADEOFF_NEVER && thumbnail_path != NULL && !access_ok (thumbnail_path)) {
-            file->details->thumbnail_access_problem = TRUE;
-            file->details->thumbnail_path = NULL;
-        } else {
-            file->details->thumbnail_path = g_strdup (thumbnail_path);
-        }
+        file->details->thumbnail_path = g_strdup (thumbnail_path);
 	}
 
 	thumbnailing_failed =  g_file_info_get_attribute_boolean (info, G_FILE_ATTRIBUTE_THUMBNAILING_FAILED);
@@ -4107,9 +4113,6 @@ nemo_file_should_show_thumbnail (NemoFile *file)
 		return FALSE;
 	}
 
-    if (file->details->thumbnail_access_problem)
-        return FALSE;
-
 	if (show_image_thumbs == NEMO_SPEED_TRADEOFF_ALWAYS) {
 		if (use_preview == G_FILESYSTEM_PREVIEW_TYPE_NEVER) {
 			return FALSE;
@@ -4597,7 +4600,7 @@ nemo_file_get_date_as_string (NemoFile       *file,
 
 		days_ago = g_date_time_difference (today_midnight, file_date) / G_TIME_SPAN_DAY;
 
-		use_24 = g_settings_get_boolean (cinnamon_interface_preferences, "clock-use-24h");
+		use_24 = g_settings_get_boolean (nemo_desktop_preferences, "clock-use-24h");
 
 		// Show only the time if date is on today
 		if (days_ago < 1) {
@@ -7636,12 +7639,6 @@ nemo_file_set_is_desktop_orphan (NemoFile *file,
                                  gboolean  is_desktop_orphan)
 {
     file->details->is_desktop_orphan = is_desktop_orphan;
-}
-
-gboolean
-nemo_file_has_thumbnail_access_problem   (NemoFile *file)
-{
-    return file->details->thumbnail_access_problem;
 }
 
 static void

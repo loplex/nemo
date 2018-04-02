@@ -1737,20 +1737,6 @@ msgstr ""
 msgid "Adjust zoom level"
 msgstr ""
 
-#: src/nemo-thumbnail-problem-bar.c:114
-msgid ""
-"A problem has been detected with your thumbnail cache.  Fixing it will "
-"require administrative privileges."
-msgstr ""
-
-#: src/nemo-thumbnail-problem-bar.c:118
-msgid "Fix now"
-msgstr ""
-
-#: src/nemo-thumbnail-problem-bar.c:121
-msgid "Dismiss"
-msgstr ""
-
 #: src/nemo-toolbar.c:238
 msgid "Elevated Privileges"
 msgstr ""

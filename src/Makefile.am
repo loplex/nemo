@@ -34,6 +34,7 @@ AM_CPPFLAGS =							\
 	-DVERSION="\"$(VERSION)\"" 				\
     -DNEMO_EXTENSIONDIR=\""$(libdir)/nemo/extensions-3.0"\" \
 	$(DISABLE_DEPRECATED_CFLAGS)                            \
+	$(UNITY_CFLAGS)                            \
 	$(NULL)
 
 LDADD =\
@@ -45,6 +46,7 @@ LDADD =\
 	$(EXIF_LIBS) \
 	$(EXEMPI_LIBS) \
 	$(POPT_LIBS) \
+	$(UNITY_LIBS) \
 	$(NULL)
 
 fd_dbus_built_sources = nemo-freedesktop-generated.c nemo-freedesktop-generated.h
@@ -177,8 +179,6 @@ nemo_SOURCES = \
 	nemo-self-check-functions.h 	\
     nemo-statusbar.c    \
     nemo-statusbar.h    \
-    nemo-thumbnail-problem-bar.c  \
-    nemo-thumbnail-problem-bar.h  \
 	nemo-toolbar.c			\
 	nemo-toolbar.h			\
 	nemo-tree-sidebar.c			\
@@ -211,6 +211,10 @@ nemo_SOURCES = \
 	nemo-window-types.h			\
 	nemo-x-content-bar.c		\
 	nemo-x-content-bar.h		\
+	unity-quicklist-handler.c	\
+	unity-quicklist-handler.h	\
+	unity-bookmarks-handler.c	\
+	unity-bookmarks-handler.h	\
 	$(NULL)
 
 nodist_nemo_SOURCES = \
@@ -316,8 +320,6 @@ nemo_desktop_SOURCES = \
     nemo-self-check-functions.h     \
     nemo-statusbar.c    \
     nemo-statusbar.h    \
-    nemo-thumbnail-problem-bar.c  \
-    nemo-thumbnail-problem-bar.h  \
     nemo-toolbar.c          \
     nemo-toolbar.h          \
     nemo-tree-sidebar.c         \
@@ -350,6 +352,10 @@ nemo_desktop_SOURCES = \
     nemo-window-types.h         \
     nemo-x-content-bar.c        \
     nemo-x-content-bar.h        \
+    unity-quicklist-handler.c	\
+    unity-quicklist-handler.h	\
+    unity-bookmarks-handler.c	\
+    unity-bookmarks-handler.h	\
     $(NULL)
 
 nodist_nemo_desktop_SOURCES = \

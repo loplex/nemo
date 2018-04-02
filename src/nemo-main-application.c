@@ -74,7 +74,7 @@
 
 #define GNOME_DESKTOP_USE_UNSTABLE_API
 
-#include <libcinnamon-desktop/gnome-desktop-thumbnail.h>
+#include <libgnome-desktop/gnome-desktop-thumbnail.h>
 
 /* Keep window from shrinking down ridiculously small; numbers are somewhat arbitrary */
 #define APPLICATION_WINDOW_MIN_WIDTH	300
@@ -491,7 +491,6 @@ nemo_main_application_local_command_line (GApplication *application,
 	gboolean kill_shell = FALSE;
 	gboolean no_default_window = FALSE;
     gboolean no_desktop_ignored = FALSE;
-	gboolean fix_cache = FALSE;
 	gchar **remaining = NULL;
     GApplicationFlags init_flags;
 	NemoMainApplication *self = NEMO_MAIN_APPLICATION (application);
@@ -512,8 +511,6 @@ nemo_main_application_local_command_line (GApplication *application,
 		  N_("Only create windows for explicitly specified URIs."), NULL },
         { "no-desktop", '\0', 0, G_OPTION_ARG_NONE, &no_desktop_ignored,
           N_("Ignored argument - left for compatibility only."), NULL },
-		{ "fix-cache", '\0', 0, G_OPTION_ARG_NONE, &fix_cache,
-		  N_("Repair the user thumbnail cache - this can be useful if you're having trouble with file thumbnails.  Must be run as root"), NULL },
 		{ "quit", 'q', 0, G_OPTION_ARG_NONE, &kill_shell, 
 		  N_("Quit Nemo."), NULL },
 		{ G_OPTION_REMAINING, 0, 0, G_OPTION_ARG_STRING_ARRAY, &remaining, NULL,  N_("[URI...]") },
@@ -557,17 +554,6 @@ nemo_main_application_local_command_line (GApplication *application,
 		do_perform_self_checks (exit_status);
 		goto out;
 	}
-
-    if (fix_cache) {
-        if (geteuid () != 0) {
-            g_printerr ("The --fix-cache option must be run with sudo or as the root user.\n");
-        } else {
-            gnome_desktop_thumbnail_cache_fix_permissions ();
-            g_print ("User thumbnail cache successfully repaired.\n");
-        }
-
-        goto out;
-    }
 
 	DEBUG ("Parsing local command line, no_default_window %d, quit %d, "
 	       "self checks %d",
