@@ -1,0 +1,32 @@
+diff --git a/configure.ac b/configure.ac
+index 08876b5..2605258 100644
+--- a/configure.ac
++++ b/configure.ac
+@@ -3,7 +3,7 @@
+ dnl ===========================================================================
+ 
+ m4_define(glib_minver,                 2.37.3)
+-m4_define(cinnamon_desktop_minver,     2.6.1)
++m4_define(gnome_desktop_minver,         3.0.0)
+ m4_define(pango_minver,                1.28.3)
+ m4_define(gtk_minver,                  3.9.10)
+ m4_define(xml_minver,                  2.7.8)
+@@ -218,7 +218,7 @@
+ dnl common libs (eel, nemo)
+ PKG_CHECK_MODULES(COMMON, [
+ 	gail-3.0
+-	cinnamon-desktop >= cinnamon_desktop_minver
++	gnome-desktop-3.0 >= gnome_desktop_minver
+ 	libxml-2.0 >= xml_minver
+ 	x11
+ ])
+@@ -232,7 +232,7 @@
+ 	gmodule-no-export-2.0 >= glib_minver
+ 	gio-2.0 >= glib_minver
+ 	gio-unix-2.0 >= glib_minver
+-	cinnamon-desktop
++	gsettings-desktop-schemas
+ 	xapp >= xapps_minver
+ 	libnotify >= notify_minver
+ ])
+

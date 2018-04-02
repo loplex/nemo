@@ -1,0 +1,15 @@
+--- a/libnemo-private/org.nemo.gschema.xml.in
++++ b/libnemo-private/org.nemo.gschema.xml.in
+@@ -488,9 +488,9 @@
+       <_description>Deprecated: If this is set to true, Nemo will autostart and manage the desktop</_description>
+     </key>
+     <key name="use-desktop-grid" type="b">
+-      <default>true</default>
++      <default>false</default>
+       <_summary>Which desktop view type to use</_summary>
+-      <_description>If true, the new desktop grid view will be used by nemo-desktop, otherwise the legacy view will be used.</_description>
++      <_description>If true, the new desktop grid view will be used by nemo-desktop, otherwise the legacy view will be used.</_description>
+     </key>
+     <key name="vertical-grid-adjust" type="d">
+       <default>1.0</default>
+

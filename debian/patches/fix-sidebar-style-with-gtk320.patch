@@ -1,0 +1,14 @@
+--- a/src/nemo-style-application.css	2016-12-10 14:20:25.000000000 +0200
++++ b/src/nemo-style-application.css	2016-12-12 12:47:00.658482577 +0200
+@@ -59,3 +59,11 @@
+     background-color: alpha(@theme_selected_bg_color, 0.85);
+     color: @theme_selected_fg_color;
+ }
++
++.nemo-window .sidebar .frame {
++  border: 0; }
++.nemo-window .sidebar .nemo-places-sidebar, .nemo-window .sidebar .nemo-places-sidebar .view, .nemo-window .sidebar .nemo-places-sidebar iconview {
++  background-color: @theme_bg_color; }
++
++.nemo-window .sidebar .nemo-places-sidebar .view:selected:focus, .nemo-window .sidebar .nemo-places-sidebar iconview:selected:focus, .nemo-window .sidebar .nemo-places-sidebar .view:selected, .nemo-window .sidebar .nemo-places-sidebar iconview:selected {
++  background-color: @theme_selected_bg_color; }

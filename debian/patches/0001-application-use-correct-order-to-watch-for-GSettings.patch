@@ -1,0 +1,104 @@
+From c84f4e0039353e3846afda132a53d96fcadc0715 Mon Sep 17 00:00:00 2001
+From: Cosimo Cecchi <cosimoc@gnome.org>
+Date: Sun, 30 Nov 2014 11:01:00 -0800
+Subject: [PATCH] application: use correct order to watch for GSettings changes
+
+After a recent GLib change, we need to connect to the changed signal
+before we actually read its value, or we will never get a change
+notification.
+---
+ src/nemo-application.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/src/nemo-application.c b/src/nemo-application.c
+index 346fa3d..54f4726 100644
+--- a/src/nemo-application.c
++++ b/src/nemo-application.c
+@@ -100,6 +100,7 @@
+ /* The saving of the accelerator map was requested  */
+ static gboolean save_of_accel_map_requested = FALSE;
+ 
++static void     desktop_changed_callback          (gpointer                  user_data);
+ static void     mount_removed_callback            (GVolumeMonitor            *monitor,
+ 						   GMount                    *mount,
+ 						   NemoApplication       *application);
+@@ -333,6 +334,30 @@
+ 	DEBUG ("Creating a new navigation window");
+ 	
+ 	return window;
++}
++
++/* callback for showing or hiding the desktop based on the user's preference */
++static void
++desktop_changed_callback (gpointer user_data)
++{
++	NemoApplication *application;
++	application = NEMO_APPLICATION (user_data);
++	if (g_settings_get_boolean (nemo_desktop_preferences, NEMO_PREFERENCES_SHOW_DESKTOP)) {
++		nemo_application_open_desktop (application);
++	} else {
++		nemo_application_close_desktop ();
++	}
++}
++
++static void
++monitors_changed_callback (GdkScreen *screen, NemoApplication *application)
++{
++	if (g_settings_get_boolean (nemo_desktop_preferences, NEMO_PREFERENCES_SHOW_DESKTOP)) {
++		nemo_application_close_desktop ();
++		nemo_application_open_desktop (application);
++	} else {
++		nemo_application_close_desktop ();
++	}
+ }
+ 
+ static gboolean
+@@ -924,10 +949,31 @@
+ static void
+ init_desktop (NemoApplication *self)
+ {
++	GdkScreen *screen;
++	screen = gdk_display_get_default_screen (gdk_display_get_default ());
++
+ 	/* Initialize the desktop link monitor singleton */
+ 	nemo_desktop_link_monitor_get ();
+ 
+     self->priv->desktop_manager = nemo_desktop_manager_get ();
++	if (!self->priv->no_desktop &&
++	    !g_settings_get_boolean (nemo_desktop_preferences,
++				     NEMO_PREFERENCES_SHOW_DESKTOP)) {
++		self->priv->no_desktop = TRUE;
++	}
++
++	if (!self->priv->no_desktop) {
++		nemo_application_open_desktop (self);
++	}
++
++	/* Monitor the preference to show or hide the desktop */
++	g_signal_connect_swapped (nemo_desktop_preferences, "changed::" NEMO_PREFERENCES_SHOW_DESKTOP,
++				  G_CALLBACK (desktop_changed_callback),
++				  self);
++
++	g_signal_connect (screen, "monitors-changed",
++				  G_CALLBACK (monitors_changed_callback),
++				  self);
+ }
+ 
+ static gboolean 
+@@ -1076,8 +1122,13 @@
+ 	g_signal_connect_object (self->priv->volume_monitor, "mount_added",
+ 				 G_CALLBACK (mount_added_callback), self, 0);
+ 
+-    g_signal_connect_swapped (nemo_window_state, "changed::" NEMO_WINDOW_STATE_START_WITH_MENU_BAR,
+-                              G_CALLBACK (menu_state_changed_callback), self);
++	g_signal_connect_swapped (nemo_window_state, "changed::" NEMO_WINDOW_STATE_START_WITH_MENU_BAR,
++				 G_CALLBACK (menu_state_changed_callback), self);
++
++	g_signal_connect_swapped (gnome_background_preferences, "changed",
++				  G_CALLBACK (desktop_changed_callback),
++				  self);
++	desktop_changed_callback (self);
+ 
+ 	/* Check the user's ~/.nemo directories and post warnings
+ 	 * if there are problems.
+

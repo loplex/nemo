@@ -1,0 +1,11 @@
+--- a/libnemo-private/org.nemo.gschema.xml.in
++++ b/libnemo-private/org.nemo.gschema.xml.in
+@@ -487,7 +487,7 @@
+       <_description>Use 24h format if true.</_description>
+     </key>
+     <key name="desktop-layout" type="s">
+-      <default>"true::false"</default>
++      <default>"true::true"</default>
+       <_summary>Desktop layout</_summary>
+       <_description>Format bool:bool, show desktop folder on primary monitor:show desktop on remaining monitors</_description>
+     </key>

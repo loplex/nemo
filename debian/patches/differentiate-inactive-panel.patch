@@ -1,0 +1,17 @@
+From Mint-X theme
+--- a/src/nemo-style-application.css	2016-12-10 14:20:25.000000000 +0200
++++ b/src/nemo-style-application.css	2016-12-12 12:33:05.464733518 +0200
+@@ -49,3 +49,13 @@
+     text-shadow: none;
+ }
+ 
++.nemo-inactive-pane .view {
++    background-color: shade(@theme_base_color, 0.93);
++    color: shade(@theme_fg_color, 1.2);
++}
++
++.nemo-inactive-pane .view:selected,
++.nemo-inactive-pane .nautilus-canvas-item:selected {
++    background-color: alpha(@theme_selected_bg_color, 0.85);
++    color: @theme_selected_fg_color;
++}

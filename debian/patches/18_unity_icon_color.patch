@@ -1,0 +1,14 @@
+Maintained by Andrew <andrew@webupd8.org>
+Index: nemo-1.7.6/data/nemo.desktop.in.in
+===================================================================
+--- nemo-1.7.6.orig/data/nemo.desktop.in.in	2013-05-04 10:02:46.885816391 +1000
++++ nemo-1.7.6/data/nemo.desktop.in.in	2013-05-04 10:02:46.882483057 +1000
+@@ -135,6 +135,7 @@
+ Icon=system-file-manager
+ Terminal=false
+ Type=Application
++X-Unity-IconBackgroundColor=#af4853
+ StartupNotify=false
+ Categories=GNOME;GTK;Utility;Core;
+ MimeType=inode/directory;application/x-gnome-saved-search;
+

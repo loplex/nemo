@@ -1,0 +1,25 @@
+--- a/libnemo-private/org.nemo.gschema.xml.in
++++ b/libnemo-private/org.nemo.gschema.xml.in
+@@ -473,6 +473,11 @@
+       <_summary>Desktop font</_summary>
+       <_description>The font _description used for the icons on the desktop.</_description>
+     </key>
++    <key name="clock-use-24h" type="b">
++      <default>true</default>
++      <_summary>Use 24h format</_summary>
++      <_description>Use 24h format if true.</_description>
++    </key>
+     <key name="desktop-layout" type="s">
+       <default>"true::false"</default>
+       <_summary>Desktop layout</_summary>
+--- a/libnemo-private/nemo-file.c
++++ b/libnemo-private/nemo-file.c
+@@ -4569,7 +4569,7 @@
+ 
+ 		days_ago = g_date_time_difference (today_midnight, file_date) / G_TIME_SPAN_DAY;
+ 
+-		use_24 = g_settings_get_boolean (cinnamon_interface_preferences, "clock-use-24h");
++		use_24 = g_settings_get_boolean (nemo_desktop_preferences, "clock-use-24h");
+ 
+ 		// Show only the time if date is on today
+ 		if (days_ago < 1) {

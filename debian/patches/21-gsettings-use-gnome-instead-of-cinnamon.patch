@@ -1,0 +1,103 @@
+Maintained by Andrew <andrew@webupd8.org>
+diff --git a/libnemo-private/nemo-global-preferences.c b/libnemo-private/nemo-global-preferences.c
+index 08876b5..2605258 100644
+--- a/libnemo-private/nemo-global-preferences.c
++++ b/libnemo-private/nemo-global-preferences.c
+@@ -142,13 +142,12 @@
+ 	nemo_compact_view_preferences = g_settings_new("org.nemo.compact-view");
+ 	nemo_desktop_preferences = g_settings_new("org.nemo.desktop");
+ 	nemo_tree_sidebar_preferences = g_settings_new("org.nemo.sidebar-panels.tree");
+-    nemo_plugin_preferences = g_settings_new("org.nemo.plugins");
+-	gnome_lockdown_preferences = g_settings_new("org.cinnamon.desktop.lockdown");
+-	gnome_background_preferences = g_settings_new("org.cinnamon.desktop.background");
+-	gnome_media_handling_preferences = g_settings_new("org.cinnamon.desktop.media-handling");
+-	gnome_terminal_preferences = g_settings_new("org.cinnamon.desktop.default-applications.terminal");
+-    cinnamon_privacy_preferences = g_settings_new("org.cinnamon.desktop.privacy");
+-	cinnamon_interface_preferences = g_settings_new ("org.cinnamon.desktop.interface");
++	nemo_plugin_preferences = g_settings_new("org.nemo.plugins");
++	gnome_lockdown_preferences = g_settings_new("org.gnome.desktop.lockdown");
++	gnome_background_preferences = g_settings_new("org.gnome.desktop.background");
++	gnome_media_handling_preferences = g_settings_new("org.gnome.desktop.media-handling");
++	gnome_terminal_preferences = g_settings_new("org.gnome.desktop.default-applications.terminal");
++	nemo_privacy_preferences = g_settings_new("org.nemo.privacy");
+ 
+     ignore_view_metadata = g_settings_get_boolean (nemo_preferences, NEMO_PREFERENCES_IGNORE_VIEW_METADATA);
+ 
+--- a/libnemo-private/nemo-global-preferences.h
++++ b/libnemo-private/nemo-global-preferences.h
+@@ -278,8 +278,7 @@
+ GSettings *gnome_background_preferences;
+ GSettings *gnome_media_handling_preferences;
+ GSettings *gnome_terminal_preferences;
+-GSettings *cinnamon_privacy_preferences;
+-GSettings *cinnamon_interface_preferences;
++GSettings *nemo_privacy_preferences;
+ 
+ GTimer    *nemo_startup_timer;
+ 
+--- a/src/nemo-places-sidebar.c
++++ b/src/nemo-places-sidebar.c
+@@ -665,7 +665,7 @@
+ static gboolean
+ recent_is_supported (void)
+ {
+-    if (!g_settings_get_boolean (cinnamon_privacy_preferences, NEMO_PREFERENCES_RECENT_ENABLED))
++    if (!g_settings_get_boolean (nemo_privacy_preferences, NEMO_PREFERENCES_RECENT_ENABLED))
+         return FALSE;
+ 
+     const char * const *supported;
+@@ -4181,7 +4181,7 @@
+ 				  G_CALLBACK(desktop_setting_changed_callback),
+ 				  sidebar);
+ 
+-    g_signal_connect_swapped (cinnamon_privacy_preferences, "changed::" NEMO_PREFERENCES_RECENT_ENABLED,
++    g_signal_connect_swapped (nemo_privacy_preferences, "changed::" NEMO_PREFERENCES_RECENT_ENABLED,
+                   G_CALLBACK(desktop_setting_changed_callback),
+                   sidebar);
+ 
+@@ -4240,7 +4240,7 @@
+ 					      desktop_setting_changed_callback,
+ 					      sidebar);
+ 
+-    g_signal_handlers_disconnect_by_func (cinnamon_privacy_preferences,
++    g_signal_handlers_disconnect_by_func (nemo_privacy_preferences,
+                           desktop_setting_changed_callback,
+                           sidebar);
+
+--- a/libnemo-private/org.nemo.gschema.xml.in
++++ b/libnemo-private/org.nemo.gschema.xml.in
+@@ -434,6 +434,14 @@
+     </key>
+   </schema>
+ 
++  <schema id="org.nemo.privacy" path="/org/nemo/privacy/" gettext-domain="nemo">
++     <key type="b" name="remember-recent-files">
++      <default>true</default>
++      <summary>Whether to remember recently used files</summary>
++      <description>If FALSE, Nemo will not display Recent item in the sidebar which displays recently used files.</description>
++    </key>
++  </schema>
++
+   <schema id="org.nemo.sidebar-panels" path="/org/nemo/sidebar-panels/" gettext-domain="nemo">
+     <child name="tree" schema="org.nemo.sidebar-panels.tree"/>
+   </schema>
+@@ -469,7 +469,7 @@
+ 
+   <schema id="org.nemo.desktop" path="/org/nemo/desktop/" gettext-domain="nemo">
+     <key name="font" type="s">
+-      <default l10n="messages" context="desktop-font">'Noto Sans 10'</default>
++      <default l10n="messages" context="desktop-font">'Ubuntu 11'</default>
+       <_summary>Desktop font</_summary>
+       <_description>The font _description used for the icons on the desktop.</_description>
+     </key>
+--- a/eel/eel-gnome-extensions.c
++++ b/eel/eel-gnome-extensions.c
+@@ -43,7 +43,7 @@
+ 
+     g_return_val_if_fail (command_line != NULL, g_strdup (command_line));
+ 
+-    settings = g_settings_new ("org.cinnamon.desktop.default-applications.terminal");
++    settings = g_settings_new ("org.gnome.desktop.default-applications.terminal");
+     terminal = g_settings_get_string (settings, "exec");
+ 
+     if (terminal != NULL) {

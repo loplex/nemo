@@ -1,1075 +1,537 @@
-nemo (3.6.5) sylvia; urgency=medium
+nemo (3.6.5-1~webupd8~artful01) artful; urgency=medium
+
+  * New upstream release
 
-  [ Michael Webster ]
-  * nemo-desktop-manager.c: Add null checks for GErrors - it seems as though g_dbus calls are not guaranteed to fill the error slot (which seems like a Gio bug to me, but there's no reason to crash here regardless because of a null error.)
-  * nemo-window - Restore inadvertantly removed menu actions for view type selection (and their corresponding shortcuts,) using methods and practices more consistent with currently maintained code.
-  * nemo-window-menus.c: Add a couple guards for the previous commit's view actions for when the window is a NemoDesktopWindow
+ -- Alin Andrei <andrew@webupd8.org>  Wed, 10 Jan 2018 12:20:45 +0100
 
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 18 Dec 2017 12:37:52 +0000
+nemo (3.6.4-1~webupd8~xenial02) xenial; urgency=medium
 
-nemo (3.6.4) sylvia; urgency=medium
+  * New upstream release
+  * Don't enable #fix-sidebar-style-with-gtk320.patch and
+    #fix_text_and_background_for_rename_box_with_gtk_3.20.patch
+    for Ubuntu 16.04
 
-  [ Michael Webster ]
-  * nemo-window: Restore initial syncing of view buttons.  This was inadvertantly removed in d23762640b48d8 while getting rid of some actual unused code related to an old way view types used to be selected.
+ -- Alin Andrei <andrew@webupd8.org>  Tue, 21 Nov 2017 12:53:14 +0200
 
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 20 Nov 2017 10:10:17 +0000
+nemo (3.4.7-1~webupd8~zesty01) zesty; urgency=medium
 
-nemo (3.6.3) sylvia; urgency=medium
+  * Attempt to fix Unity quicklist bookmarks not working
 
-  [ Michael Webster ]
-  * nemo-desktop-manager.c: Account for scale factor when using cinnamon- supplied monitor info.  Cinnamon runs at a scale factor of 1 always, and things are scaled internally.
-  * dnd: Make sure to clear any source_fs pointers after dnd operations.
+ -- Alin Andrei <andrew@webupd8.org>  Fri, 11 Aug 2017 13:08:21 +0200
 
- -- Clement Lefebvre <root@linuxmint.com>  Fri, 27 Oct 2017 11:03:15 +0100
+nemo (3.4.7-1~webupd8~zesty00) zesty; urgency=medium
 
-nemo (3.6.2) sylvia; urgency=medium
+  * New upstream release
+  * Refreshed 21-gsettings-use-gnome-instead-of-cinnamon.patch,
+    23_use_system-file-manager_icon.patch, 24_remove_only_show_in.patch,
+    reverse-fixing-thumbnail-cache-feature.patch,
+    12_unity_launcher_support.patch, 17_static_unity_quicklist.patch,
+    18_unity_icon_color.patch, 28-fix-desktop-icon-style.patch,
+    22-draw-desktop-background.patch, 
+    fix_text_and_background_for_rename_box_with_gtk_3.20.patch
+  * In 21-gsettings-use-gnome-instead-of-cinnamon.patch: added a
+    default value of 11 for /org/nemo/desktop/desktop-font, without
+    it the fond is invisible on the desktop with icons set to 
+    normal size (this can also be set to a font face, e.g.: 'Ubuntu 11')
+  * 22-draw-deskto-background.patch: added fix that should allow
+    changing the desktop background in the new grid view
+  * Added display-desktop-icons-on-all-monitors-by-default.patch
+  * Added use-different-24h-dconf-key.patch - this key is not present
+    in non-Cinnamon desktops, so add a key under nemo > desktop for it
+  * Updated reverse-fixing-thumbnail-cache-feature.patch
+  * Continue:
+    - Zesty: 
+      - added fix_text_and_background_for_rename_box_with_gtk_3.20.patch
+      - fix-sidebar-style-with-gtk320.patch
 
-  [ Leigh Scott ]
-  * add xapps version to configure.ac (#1626)
+ -- Alin Andrei <andrew@webupd8.org>  Wed, 10 May 2017 13:08:21 +0200
 
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 24 Oct 2017 12:25:45 +0100
+nemo (3.2.2-4~webupd8~zesty02) zesty; urgency=medium
 
-nemo (3.6.1) sylvia; urgency=medium
+  * Upload for Yakkety
 
-  [ Ingo Lafrenz ]
-  * send by mail nemo action (#1625)
+ -- Alin Andrei <andrew@webupd8.org>  Mon, 20 Mar 2017 16:10:44 +0200
 
-  [ Clement Lefebvre ]
-  * Fix permissions on files/usr/share/nemo/actions/send-by-mail.py
+nemo (3.2.2-1~webupd8~yakkety01) yakkety; urgency=medium
 
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 24 Oct 2017 10:58:34 +0100
+  * New upstream bugfix release
+  * Added fix-sidebar-style-with-gtk320.patch for Yakkety
+  * Continue:
+    - Yakkety only: set /org/nemo/privacy/ to false by default 
+    since this no longer seems to work in Ubuntu 16.10
+    (in 21-gsettings-use-gnome-instead-of-cinnamon.patch)
+    - Yakkety only: 
+      - added fix_text_and_background_for_rename_box_with_gtk_3.20.patch
+      - fix-sidebar-style-with-gtk320.patch
 
-nemo (3.6.0) sylvia; urgency=medium
+ -- Alin Andrei <webupd8@gmail.com>  Thu, 15 Dec 2016 11:54:13 +0200
 
-  [ brownsr ]
-  * eel_g_list_str_copy: replace contents with g_list_copy_deep May improve performance somewhat for very high volume file copies though I have no way to test with the volumes reported here https://bugs.launchpad.net/linuxmint/+bug/1663186
+nemo (3.2.1-1~webupd8~xenial02) xenial; urgency=medium
 
-  [ Michael Webster ]
-  * nemo-main-application.c: try to start as a service first, then a client.  This allows nemo to be started via dbus (which requires it be run with the G_APPLICATION_IS_SERVICE flag) as well as being able to connect to an already-running instance as we can now.
-  * nemo-main-application.c: Re-add "no-desktop" command line option. We don't use it anymore, but some programs apparently hardcode nemo with this flag rather than use xdg-open or mimetype activation.  This allows them to continue working as before.
-  * nemo-view.c: Fix "follow link to original file" action when the link is on the desktop.  In these cases, we need to launch a folder handler and pass it the full file name (which for most file managers should open the folder and select the file.)
-  * nemo-query-editor.c: Use a copy of the query text to check if the query is empty (or all spaces.)  The function g_strstrip modifies the string in-place, and passing the modified query text causes issues when typing multiple words (separated by spaces) in the query.
+  * New upstream release
+  * Added differentiate-inactive-panel.patch for Xenial and Yakkety
+  * Added fix-sidebar-style-with-gtk320.patch for Yakkety
+  * Continue:
+    - Yakkety only: set /org/nemo/privacy/ to false by default 
+    since this no longer seems to work in Ubuntu 16.10
+    (in 21-gsettings-use-gnome-instead-of-cinnamon.patch)
+    - Yakkety only: added fix_text_and_background_for_rename_box_with_gtk_3.20.patch
 
-  [ leigh123linux ]
-  * Configure: disable tracker for default
+ -- Alin Andrei <webupd8@gmail.com>  Mon, 12 Dec 2016 12:10:32 +0200
 
-  [ Michael Webster ]
-  * actions: Escape single and double quotes that are part of a file path. Add "Terminal" key in the nemo_action file, to execute the Exec line in a terminal window.
-  * actions: Update sample action for Terminal keyword, update nemo_action sourceview files.
-  * actions: Only use nemo_launch_application_from_command_array() when Terminal=true.  This ensures compatibility with existing actions, which will continue to use g_spawn_async().
-  * nemo-desktop-icon-grid-view.c: Store layout timestamps any time the layout is changed by a user action.
-  * Desktop: Remove metadata for pseudo-files on the desktop such as Computer and Home when they're removed via preferences.  This simulates their deletion with respect to how metadata timestamps are tracked and validated.
-  * nemo-icon-view-grid-container.c: mark the sort as dirty any time a file is added or removed (this determines whether and when the sort direction indicator is shown in the context menu when auto-arrange is not active.
-  * nemo-icon-info.h: Use standard icon sizes for the desktop.
+nemo (3.2.0-1~webupd8~yakkety06) yakkety; urgency=medium
 
-  [ brownsr ]
-  * nemo-action.c: fixup a few compiler warnings
-  * nemo-icon-private.h: avoid memory padding save a little memory use by rearranging the fields to avoid memory padding in structures
-  * eel-editable-label.h: Avoid memory padding move fields in a structure to avoid memory padding made padding explicit to avoid warning messages if the padding compiler warnings are on
+  * New upstream release
+  * Patch updates
+  * Don't install desktop-settings.nemo_action, it's Cinnamon
+    only
+  * Yakkety only: set /org/nemo/privacy/ to false by default 
+    since this no longer seems to work in Ubuntu 16.10
+    (in 21-gsettings-use-gnome-instead-of-cinnamon.patch)
+  * Yakkety only: 
+    Added fix_text_and_background_for_rename_box_with_gtk_3.20.patch
 
-  [ Michael Webster ]
-  * nemo-file-undo-operations.c: Use GQueue instead of GList for our undo file pair lists.
-  * nemo-file-operations.c: use g_remove for native (path-reachable) files.  Allowing the normal g_file_delete involves gvfs whether the file is native or not.
-  * nemo.desktop: Remove DBusActivatable line - we don't actually support it yet, it was an unnecessary change in ad5fcfc747466715d.  This ends up just causing issues with getting nemo to launch in more up-to-date distributions.
-  * nemo-icon-container.c: Always treat desktop pseudo-files as semi-placed icons - that is, they can have their positions stored, then restored later, but their position can be adjusted upon placement if their previously stored position is now occupied.
-  * nemo-progress-ui-handler.c: Use XAppGtkWindow for the progress window, so we can pass progress info to Cinnamon.
+ -- Alin Andrei <webupd8@gmail.com>  Tue, 29 Nov 2016 13:34:25 +0200
 
-  [ Jeremy Bicha ]
-  * Add translatable files to POTFILES.in (#1584)
+nemo (2.8.7-1~webupd8~wily05) wily; urgency=medium
 
-  [ Michael Webster ]
-  * nemo-desktop-manager: Refactor and expand to integrate better with cinnamon.
-  * plugin manager: allow launching of an extension's config program from the plugin window, rather than having it in the main menu.
-  * desktop: Handle blank desktop windows properly during monitor change events.
-  * nemo-desktop-manager.c: Don't just try to resize existing desktops if the number of monitors has changed.  In this case, do a full re-layout.
-  * nemo-progress-ui-handler.c: Don't update the status icon if it's not being shown.
-  * nemo-file-operations.c: Reduce progress ui update frequency during file operations.
+  * New upstream bugfix release
+  * New patch:
+    - deep-count-one-filesystem.patch
+    (via Arch packaging)
 
-  [ Leigh Scott ]
-  * update man page for nemo (#1600)
+ -- Alin Andrei <webupd8@gmail.com>  Tue, 08 Mar 2016 11:27:41 +0200
 
-  [ Alexei Sorokin ]
-  * Fix some warnings in libnemo-private (#1482)
+nemo (2.8.6-1~webupd8~trusty01) trusty; urgency=high
 
-  [ Michael Webster ]
-  * nemo-desktop-manager.c: Don't run on_run_state_changed() during the init phase when it's a fallback session as it can cause a nasty recursion problem resulting in a crash.
-  * nemo-directory-async.c: hold the directory alive for the duration of an extension provider job, to ensure clean termination to the job when async info providers are used.
-  * dbus services: normalize file names.
-  * Remove some dead code.
-  * desktop: Don't show the "Show hidden files" menu item.  We never show hidden files on the desktop, so having this is misleading.
+  * New upstream bugfix release
 
-  [ alexnch ]
-  * Add .rar and .7z to archive mounting action (#1621)
-
-  [ John Callerame ]
-  * When activating files on the desktop (only), deselect them after activating them (#1608)
-
-  [ Ján Jančár ]
-  * nemo-toolbar.c: Add option to hide elevated privileges warning. (#1610)
-
-  [ Clement Lefebvre ]
-  * Rename show-superuser-toolbar into show-root-warning
-
-  [ Björn Esser ]
-  * file: Let renames work on Google Drive Renaming an item on Google Drive does not change the actual GVfs path because the path is made up of document-ids, which do not change. A rename operation only affects the title of the entry. In GIO terms, only the standard::display-name changes, but the standard::name remains the same.
-  * file, file-undo-operations: Let renames on Google Drive be undone We really should be using standard::display-name when renaming files - g_file_get_basename is simply not the right thing to use. Moreover, in case of Google Drive, the URI might not change with the display name and we can not get the old display name from the old GFile.
-  * debian: Set version for min. needed libglib2
-
-  [ Fabio Fantoni ]
-  * update debian/copyright
-  * debian: remove unneeded postrm
-
-  [ Clement Lefebvre ]
-  * l10n: Generate additional files
-  * l10n: Update POT file
-
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 24 Oct 2017 10:44:41 +0100
-
-nemo (3.4.6) sonya; urgency=medium
-
-  [ Michael Webster ]
-  * nemo-icon-view-grid-container.c: Reset lazy flag when the icon position is stored in auto-layout mode.
-  * nemo-file.c: Don't check for valid thumbnails if thumbnailing is disabled.
-  * nemo-action.c: Use non-blocking checks for a directory.
-  * css: Treat NemoBlankDesktopWindow the same as NemoDesktopWindow with regards to themes, add a couple fixes to our app css to prevent background issues with certain themes (Blackmate, Ambiance)
-  * Add github issue template
-  * move-to/copy-to dialogs - allow remote locations in the sidebar.
-
- -- Clement Lefebvre <root@linuxmint.com>  Thu, 06 Jul 2017 11:21:28 +0200
-
-nemo (3.4.5) sonya; urgency=medium
-
-  [ Michael Webster ]
-  * search (ctrl-f): Don't search for an empty string.  If the user wants to search for every file, they can use the wildcard (*).
-  * nemo-application: Only check/create the config dir at startup for nemo, and have nemo-desktop check both config and Desktop directories.
-  * nemo-window-menus.c: Fix control-n (new window) action callback when used from the desktop process - it should launch the preferred file manager instead of attempting to spawn a window itself.
-  * configure.ac: suppress deprecated warnings
-  * Add --enable-silent-rules to debian/rules, quiet C90 warnings.
+ -- Alin Andrei <webupd8@gmail.com>  Fri, 27 Nov 2015 12:52:11 +0200
 
-  [ Clement Lefebvre ]
-  * l10n: Generate desktop files
+nemo (2.8.5-1~webupd8~xenial01) xenial; urgency=high
 
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 26 Jun 2017 12:14:28 +0200
+  * New upstream bugfix release
 
-nemo (3.4.4) sonya; urgency=medium
+ -- Alin Andrei <webupd8@gmail.com>  Tue, 24 Nov 2015 12:18:14 +0200
 
-  [ Michael Webster ]
-  * nemo-icon-view-grid-container.c: skip default placement if we're in auto-layout mode.  We get false lazy flags on new icons since the original desktop did not use auto-layout.  We need to handle this because we both store layout timestamps and provide auto-layout.
-  * nemo-window-slot.c: Initialize cache_bar to NULL, this is checked for in nemo-window-manage-views (nemo_window_slot_check_bad_cache_bar)
+nemo (2.8.4-1~webupd8~trusty01) trusty; urgency=high
 
- -- Clement Lefebvre <root@linuxmint.com>  Thu, 22 Jun 2017 15:00:12 +0200
+  * New upstream bugfix release
 
-nemo (3.4.3) sonya; urgency=medium
+ -- Alin Andrei <webupd8@gmail.com>  Thu, 12 Nov 2015 12:04:19 +0200
 
-  [ leigh123linux ]
-  * Remove decoration from desktop window (shows in weston)
+nemo (2.8.2-1~webupd8~xenial01) xenial; urgency=high
 
-  [ Michael Webster ]
-  * Desktop: Relax control of positioning for placed icons.  At startup, they are loaded and set to their stored position, but not force-aligned, allowing the layout to ignore fluctuations in the work area during system startup.  Fix some logic around 'orphan' icons as well to prevent issues with icons not being shown due to being falsely classified as orphans.
-  * icon container: Be more specific about when to flag icons coming from a different monitor due to a desktop configuration change. (see previous commit)
-  * metadata: Add back cached position values in NemoFile.  Be sure to clear the timestamp metadata on files being moved/copied to or from the desktop. This ensures the lazy flag operates correctly.  With the desktop becoming a separate process, transfers that include position info need to be handled slightly differently, as the old way of just setting metadata and reacting to it from a new container won't work - the file gets debuted in the other process sooner than (or not reliably after, at least) the metadata is written, resulting in inconsistent positioning.
-  * Add gvfs-info action for inspecting file metadata (for purposes of debugging) - right-click a file and it will send gvfs-info output on that file to stdout.
-  * nemo-icon-view-grid-container.c: improve updates after thumbnail generation.
+  * New upstream bugfix release
 
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 20 Jun 2017 15:43:53 +0200
+ -- Alin Andrei <webupd8@gmail.com>  Mon, 09 Nov 2015 12:28:31 +0200
 
-nemo (3.4.2) sonya; urgency=medium
+nemo (2.8.1-1~webupd8~wily01) wily; urgency=high
 
-  [ Michael Webster ]
-  * nemo-icon-container.c: don't force a native window for the desktop - fixes prelight hover sticking on the desktop when leaving an icon to pass into another window.
-  * nemo-icon-view-grid-container: don't show bracketed empty spots, it's tacky.
-  * nemo-main.c: remove backend requirement (only needed for the desktop)
-  * icon view/desktop: Fix hidpi scaling on the desktop.  This also fixes compact view mode in hidpi, which was semi-broken since hidpi was implemented, and very broken since the desktop grid was added.
-  * nemo-icon-dnd.c: depopulate the dnd grid of the selected icons so insertion marks aren't drawn in the icon's source position.
-  * nemo-window-manager-views.c: simple close the window if the current view has no backward history, instead of jumping home or to the parent folder.  The most common time for this to occur is a folder opened from the desktop - if you delete that folder, the window showing it then shows the desktop in a folder, which doesn't make much sense.
-  * nemo-window-manage-views.c: invalidate file info before reloading the view, not after.  This fixes mount permissions being incorrect.
-  * dnd: Restore capability of 'moving' files from and to the desktop via drag and drop.
-  * Fetch file-roller mimetype info from a GDesktopAppInfo at startup, instead of a static (and woefully out of date) list.
-  * nemo-file.c: followup to previous commit, retain the old mimetype list for fileroller in the event that, for some reason, there is no .desktop file installed for file-roller.  Also added application/x-xz-compressed-tar to the static list.
-  * nemo-file.c: add EFAULT as a valid exception to the access_ok function.  This can throw when the file has just been moved or is in the midst of being moved and the internal async updates have not completed yet (usually during a fairly large transfer.)  As a result, the icon cache problem bar appears needlessly.
-  * desktop: size thumbnails more appropriately - scale them to our icon size in height only, and allow the width to increase as much as our max text width while maintaining the image aspect ratio.
-  * desktop thumbnails: Pad the thumbnail height when it ends up smaller than the desired height due to aspect ratio and width restrictions.  This ensures a nice alignment when keep-aligned is active.
-  * nemo-icon-view-grid-container.c: highlight the current dnd rectangle in debug mode.
-  * desktop grid: use the layout size for determining constraint to the canvas bounds instead of max size - this prevents files with very long names from being pushed out of the grid alignment.
-  * misc: Clean up minor leaks, other issues.
-  * desktop grid: include additional text (Icon Captions) in calculations for the ellipsis limit, and update the desktop when these change - instead of forcing the user to reload or restart to see changes.
-  * cleanup some warnings from recent commits.
-  * nemo-style-application: Remove drop shadow from the selection and pre-light states of desktop icons.  The shadows are drawn outside the calculated bounds of these items, and are problematic to account for without doing frequent full screen repaints (something I want to avoid)
-  * DnD: Draw the highlight box around the entire text when an item is prelit and highlighted as a drop target.  The highlight box was only drawing as if to surround only the normal, ellipsized text, rather than the full, unellipsized height.
-  * Set a default font for the desktop - this is overridden by distros in most cases, but having something is better than leaving it blank - you could set it to "Unicorn poo 15" and it would still show the labels, even though you lack that actual font.
-  * Add a default to our theme - using the default font was always supposed to be a fallback option, however the check in various places for whether the gsettings key is empty or not is incorrect - g_settings_get_string will always return a string, never NULL, so we need to check if the string is not empty instead. (I left the null check also as a safety - it's possible during startup that this may be null prior to the setting being first fetched.
-  * desktop: Fix missing icons when 'show orphans' is disabled (we were incorrectly interpreting a monitor number of -1 (which means, no previous location) and a missing monitor.
-  * Fix visual sort function - sort function was incorrect for the new grid, and the new order was never set after a sort when running the alignment routine.
+  * New upstream bugfix release
 
-  [ JosephMcc ]
-  * nemo-places-sidebar: Use folder-recents for the recent icon (#1502)
+ -- Alin Andrei <webupd8@gmail.com>  Tue, 03 Nov 2015 12:28:31 +0200
 
-  [ Michael Webster ]
-  * grid view:  Don't re-enable auto-arrange when changing zoom levels.
-  * desktop dnd - Use more sensible behavior when keep-aligned is active.
-  * Fix dnd for netscape url drops.
-  * nemo-file-operations: limit metadata setting to desktop location only (In a previous commit it was re-enabled, but has the potential to cause traffic jams in dbus during a long copy/move operation.
-  * nemo-mime-actions.c: Don't fail for non-local links (like dragged website links) - the check here is for the foreign url, not the local desktop file (link), so it will never succeed, and is not necessary.
-  * DnD: Fix some positioning issues with auto-align local moves, and non-local icon moves (like nemo->nemo-desktop transfers)
-  * nemo-icon-view-grid-container.c: keep the icon list synced with the visual order of the desktop.
-  * dnd: split out some container-specific code that had bled over a bit
-  * Fix application css - font was breaking Gtk 3.22 and is not needed. Change prelight to hover to fix deprecation warnings.
+nemo (2.8.0-1~webupd8~trusty01) trusty; urgency=high
 
-  [ DaveBlack ]
-  * Modify desktop icon order (#1501)
+  * New upstream release
+  * Depend on cinnamon translations or cinnamon-l10n
+  * Refreshed reverse-fixing-thumbnail-cache-feature.patch
 
-  [ Michael Webster ]
-  * nemo-file-operations.c: store the desktop location during a duplicate job, to fix DnD duplicate positioning on the desktop.
+ -- Alin Andrei <webupd8@gmail.com>  Fri, 23 Oct 2015 11:43:19 +0200
 
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 23 May 2017 15:54:04 +0100
+nemo (2.6.7-2~webupd8~trusty00) trusty; urgency=high
 
-nemo (3.4.1) sonya; urgency=medium
-
-  * Revert "split executables into separate packages."
-
- -- Clement Lefebvre <root@linuxmint.com>  Fri, 05 May 2017 17:24:21 +0100
-
-nemo (3.4.0) sonya; urgency=medium
-
-  [ Daniel Schürmann ]
-  * Nemo-Icon-View: Fix missing cast warning
-  * restore prototype lost in c5a513468ee8c3497f0673e3ca019ccd3f409f8b
-  * Add missing include
-
-  [ Timothy Sharitt ]
-  * Fix quirks with tabs and search widgets
-
-  [ leigh123linux ]
-  * Don't reload while a reload is ongoing
-
-  [ Stefan-Olt ]
-  * wildcard search for search-engine-simple
-
-  [ Daniel Schürmann ]
-  * Remove double definition
-
-  [ JosephMcc ]
-  * Fix a crash when attempting to delete an empty selection on the desktop
-
-  [ dg1727 ]
-  * Updated pkexec support
-
-  [ JosephMcc ]
-  * Fix search never resolving
-
-  [ Ulrik Sverdrup ]
-  * nemo-dbus-manager.c: Add MoveURIs method
-
-  [ William Jon McCann ]
-  * Improve date display
-  * Use 24 hour date format when requested
-
-  [ Frédéric Péters ]
-  * Translate date formats
-
-  [ Carlos Soriano ]
-  * nautilus-file: implement smarter dates
-  * nautilus-list-view: add a modified column with time
-  * nautilus-file: Clarify translators comments
-  * nautilus-file: fix memory leak
-  * nautilus-file: fix code style
-  * nautilus-file: use const for the date format
-
-  [ Khaled Hosny ]
-  * Mark time format with xgettext:no-c-format
-
-  [ Carlos Soriano ]
-  * file: fix wrong date calculation
-  * file: fix previous commit
-  * file: use _() directly for date formatting
-
-  [ Ernestas Kulik ]
-  * file: fix date string day difference calculation
-
-  [ Daniel Schürmann ]
-  * Use long day and month names if space allows
-
-  [ leigh123linux ]
-  * Make libselinux dependency controllable by configure switch
-  * raise tracker version
-  * autogen.sh: don't run aclocal
+  * New upstream release
+  * Refreshed 12_unity_launcher_support_and_removed_cinnamon.patch
 
-  [ Daniel Schürmann ]
-  * location-bar: use a GFile in location-changed signal
-
-  [ Clement Lefebvre ]
-  * l10n: Generate desktop file via generate_aditional_file
-  * Add Cinnamon panel shortcuts (trash, computer, etc.) to the launcher
+ -- Alin Andrei <webupd8@gmail.com>  Wed, 24 Jun 2015 15:55:39 +0200
 
-  [ leigh123linux ]
-  * Disable selinux for Debian rules
+nemo (2.6.6-2~webupd8~vivid00) vivid; urgency=high
 
-  [ Daniel Schürmann ]
-  * Fix compiler warnings in eel folder
-  * nemo-desktop-window: cleanup delete-event handling
-  * nemo-blank-desktop-window: cleanup delete-event handling
-  * window: make NemoWindow a GtkApplicationWindow
+  * New upstream release
 
-  [ itzexor ]
-  * nemo-file-operations.c: use only template filename for new files
+ -- Alin Andrei <webupd8@gmail.com>  Tue, 16 Jun 2015 12:13:21 +0200
 
-  [ Denis Golubev ]
-  * nemo-navigation-action.c: Add new_tab_action
+nemo (2.6.5-2~webupd8~trusty05) trusty; urgency=high
 
-  [ Michael Webster ]
-  * Fix merge fail in previous commit.
-  * configure.ac: Remove CFLAGS line - the optimization is dangerous, and the fatal warnings for unused stuff was just annoying when trying to refactor - warnings are enough.
-  * Use GTimer for tracking startup speed, and also use one to track view loads.
-  * nemo-view.c: Add idle timer for benchmarking.
-  * Split off desktop handling into new process
-  * Update .gitignore
-  * Split off old icon container into the existing subclass NemoIconViewContainer and set up a new subclass - NemoIconViewGridContainer to match with a new NemoDesktopIconGridView class.  The old style is accessible via the org.nemo.desktop 'use-desktop-grid' setting.
-  * fix autostart file name so cinnamon session doesn't fail.
-  * split executables into separate packages.
-  * Remove a bunch of comments, fix auto-layout not sticking.
-  * nemo-icon-container: Move debug drawing to the grid container subclass.  Trigger it using NEMO_DEBUG=Desktop when running nemo-desktop.
-  * Implement horizontal layout.
-  * General fixes, icons, metadata issues between monitors.  Provide per-monitor metadata for desktop containers.
-  * Improve DND during keep-aligned, allow for insertion of items. Implement zoom scaling and allow adjustment.
-  * Improve highlighting of hovered items
-  * Fix desktop folder launching - xdg-open was never intended to be the final answer.
-  * Fix ellipses change listening - the is_desktop flag was being set too late in the view construction process to connect to the correct gsettings key.
-  * Fix regression causing metadata to be inconsistent in nemo client window when navigating to and away from the Desktop folder
-  * Add some gsettings listeners for grid stuff
-  * Fix dnd between monitors - clamp grid values, and ensure we have a grid on the target monitor.
-  * Fix zoom switching, dnd placement, snapping
-  * nemo-desktop-utils.c: Improve how we store the monitor number for a desktop window.
-  * Use black instead of theme color for pre-light label highlighting
-  * nemo-icon-canvas-item.c: extend redraw area slightly for canvas items. This ensures any small shadow we have is cleaned up after an item is de-selected.
-  * nemo-desktop-icon-grid-view.c: Don't trigger a real update while updating menus.
-  * Disable zoom for the desktop window (allow it only via context menu)
-  * nemo-desktop-application: cleanup some commented lines
+  * New upstream release
+  * Sync rules / gir1.2-nemo-3.0.install.in / nemo.install with 
+    original Nemo packaging
+  * Refreshed patches
+  * Added new custom action under debian/actions: 
+    new-launcher.nemo_action - this only works if gnome-panel is 
+    installed
+  * Added icon for set-as-background.nemo_action (it doesn't have
+    one by default)
+  * Added fix-overlay-scrollbars-preferences-window.patch
+  * Adde missing-files-potfiles.patch from Ubuntu Wily
 
-  [ leigh123linux ]
-  * fix desktop file error (#1477)
+ -- Alin Andrei <webupd8@gmail.com>  Wed, 20 May 2015 12:02:44 +0200
 
-  [ Denis Golubev ]
-  * nemo-navigation-action.c: Extend, Fix Middle-Click (#1478)
+nemo (2.4.5-2~webupd8~vivid2) vivid; urgency=medium
 
-  [ Clement Lefebvre ]
-  * l10n: Update POT file
-  * l10n: Generate additional files
+  * Refreshed 22-draw-desktop-background.patch from Nautilus
+  * Added 0001-application-use-correct-order-to-watch-for-GSettings.patch
+    from Nautilus, modified for Nemo, to get wallpaper changing to
+    work properly in Vivid
+  * Bump Standards-Version to 3.9.6
 
- -- Clement Lefebvre <root@linuxmint.com>  Thu, 04 May 2017 13:39:55 +0100
+ -- Alin Andrei <webupd8@gmail.com>  Thu, 12 Mar 2015 12:33:27 +0200
 
-nemo (3.2.2) serena; urgency=medium
+nemo (2.4.5-2~webupd8~vivid1) vivid; urgency=medium
 
-  * l10n: Generate additional files
+  * Upload for Vivid
+  * gir1.2-nemo-3.0.install: add /*/ for arch-specific dir
 
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 12 Dec 2016 14:25:13 +0000
+ -- Alin Andrei <webupd8@gmail.com>  Wed, 11 Mar 2015 14:18:39 +0200
 
-nemo (3.2.1) serena; urgency=medium
+nemo (2.4.5-2~webupd8~utopic0) utopic; urgency=medium
 
-  [ Tomasz Sterna ]
-  * Add missing "Desktop" DEBUG flag
+  * New upstream bugfix release:
+    - Fixed the growing size of the nemo statusbar in each new version of gtk
 
-  [ leigh123linux ]
-  * Add space to Name[en_GB]
-  * file-operations: don't recurse for trash operations
+ -- Alin Andrei <webupd8@gmail.com>  Tue, 20 Jan 2015 16:22:17 +0200
 
-  [ Clement Lefebvre ]
-  * l10n: Update POT file
+nemo (2.4.4-2~webupd8~trusty1) trusty; urgency=medium
 
-  [ leigh123linux ]
-  * Force X11 backend
+  * Added shade-rubberbands-by-wallpaper.patch (thanks to
+    Tasos Sahanidis)
 
-  [ Michael Webster ]
-  * remove screen metadata (we only ever have one screen)
-  * nemo-file-operations.c: Don't update position metadata on most file operations - it's costly, and can cause lockups.
+ -- Alin Andrei <webupd8@gmail.com>  Mon, 19 Jan 2015 11:54:08 +0200
 
- -- Clement Lefebvre <root@linuxmint.com>  Sat, 10 Dec 2016 12:19:48 +0000
+nemo (2.4.4-2~webupd8~utopic0) utopic; urgency=medium
 
-nemo (3.2.0) serena; urgency=medium
+  * New upstream bugfix release
+  * Changes since 2.4.2:
+    - Never allow root nemo to manage the desktop
+    - list-view: Don't reset zoom level when syncing statusbar 
+      zoom widget state
+  * Refreshed 12_unity_launcher_support_and_removed_cinnamon.patch
 
-  [ leigh123linux ]
-  * fix GCC pointer signedness warnings
+ -- Alin Andrei <webupd8@gmail.com>  Mon, 24 Nov 2014 15:24:39 +0200
 
-  [ raveit65 ]
-  * add .view style class on icon view scrolled window
+nemo (2.4.2-2~webupd8~trusty0) trusty; urgency=medium
 
-  [ itzexor ]
-  * window: remove custom get_preferred_width/height implementation We already take care of the default size when we create the window, and these only break assumptions of the default GtkWindow's handlers.
-  * pathbar: avoid gtk+ warnings
-  * pathbar: remove hardcoded width for sliders
+  * New upstream bugfix release
 
-  [ Maximiliano Curia ]
-  * Close open_as_root child on child exit
+ -- Alin Andrei <webupd8@gmail.com>  Wed, 12 Nov 2014 14:03:21 +0200
 
-  [ Michael Webster ]
-  * nemo-context-menu-menu-item.c: use correct grammar in the context menu toggle.
+nemo (2.4.1-2~webupd8~utopic0) utopic; urgency=medium
 
-  [ leigh123linux ]
-  * Fix GTK 3.21.3 desktop redraw issue (#1231)
+  * New upstream bugfix release
+  * Disable reenable-right-clik-context-menu-on-nemo-toolbar-nav-buttons.patch
+    (applied upstream)
 
-  [ Maximiliano Curia ]
-  * Migrate away from gnome-common deprecated vars and macros
+ -- Alin Andrei <webupd8@gmail.com>  Tue, 11 Nov 2014 12:37:05 +0200
 
-  [ brownsr ]
-  * replace deprecated gtk_icon_info_free with g_object_unref
-  * remove deprecated and no longer necessary g_type_init
+nemo (2.4.0-2~webupd8~trusty1) trusty; urgency=medium
 
-  [ itzexor ]
-  * file-operations: reduce the time for reliable transfer rate
-  * remove "Show text in icon" preference
+  * Added reenable-right-clik-context-menu-on-nemo-toolbar-nav-buttons.patch
 
-  [ Michael Webster ]
-  * nemo-view.c: unescape uris being passed to file-roller during drag-and-drop (replaces %20 with spaces).
+ -- Alin Andrei <webupd8@gmail.com>  Thu, 06 Nov 2014 14:55:31 +0200
 
-  [ Chris Allan ]
-  * Expand grid width to canvas
-  * Minimum of one column
+nemo (2.4.0-2~webupd8~utopic0) utopic; urgency=medium
 
-  [ xenopeek ]
-  * Update nemo-file.c
+  * New upstream release
+  * disabled ubuntu_ui_fixes.patch, 29-revert-colored-icons1.patch
+    and 30-revert-colored-icons2.patch
+  * disabled clang_FTBFS, applied upstream
+  * 12_unity_launcher_support_and_removed_cinnamon.patch:
+    nemo_bookmark_list_new -> nemo_bookmark_list_get_default
+  * refreshed 21-gsettings-use-gnome-instead-of-cinnamon.patch
+  * move usr/share/polkit-1/actions from nemo to nemo-data
+  * use Nemo for privacy Gsettings instead of Cinnamon
 
-  [ leigh123linux ]
-  * trash-monitor: change trash monitoring process
+ -- Alin Andrei <webupd8@gmail.com>  Mon, 03 Nov 2014 11:58:17 +0200
 
-  [ lukefromdc ]
-  * Fix --geometry option when Nemo is already running
+nemo (2.2.4-3~webupd8~utopic1) utopic; urgency=medium
 
-  [ Maximiliano Curia ]
-  * Keep warnings as warnings when building the packages
+  * Rebuild
 
-  [ Clement Lefebvre ]
-  * Clean up previous PR
+ -- Alin Andrei <webupd8@gmail.com>  Thu, 16 Oct 2014 18:08:44 +0200
 
-  [ JosephMcc ]
-  * nemo-file-management-properties: Fix an accidental removal
+nemo (2.2.4-3~webupd8~utopic0) utopic; urgency=medium
 
-  [ leigh123linux ]
-  * Add missing build dep
+  * Upload for Utopic
 
-  [ Clement Lefebvre ]
-  * Fixed build
+ -- Alin Andrei <webupd8@gmail.com>  Thu, 11 Sep 2014 11:27:49 +0200
 
-  [ Maximiliano Curia ]
-  * Make AX_ macros optional
+nemo (2.2.4-3~webupd8~trusty0) trusty; urgency=medium
 
-  [ itzexor ]
-  * nemo-window.c: save sidebar width 100ms after last change
-  * nemo-application.c: fix maximized window state preservation
+  * Sync changes from Ubuntu Utopic:
+    - control: 
+        - fixed descriptions
+        - build-depend on python-dev
+    - updated rules
+    - added clang_FTBFS patch
+    - move polkit policy from nemo-data to nemo to avoid later incompatibility
+      with Ubuntu's Nemo package -> nemo Conflicts: nemo-data (<< 2.2.4-2~)
 
-  [ Daniel Schürmann ]
-  * Remove conditional ellipsis code for GTK < 3.12.0 builds.
+ -- Alin Andrei <webupd8@gmail.com>  Thu, 21 Aug 2014 11:27:49 +0200
 
-  [ darealshinji ]
-  * Add link to Launchpad translations to README
+nemo (2.2.4-1~webupd8~trusty0) trusty; urgency=medium
 
-  [ claudetete ]
-  * bind double left click on blank to go to parent folder
-  * add option to manage double cick in blank area (off by default) because it changes previous behavior
+  * new upstream release
+  * updated 12_unity_launcher_support_and_removed_cinnamon.patch 
+    to work with recent Nemo bookmark changes
 
-  [ Clement Lefebvre ]
-  * Rephrased feature introduced in previous commit and regenerated pot file
+ -- Alin Andrei <webupd8@gmail.com>  Tue, 19 Aug 2014 13:54:21 +0200
 
-  [ Michael Webster ]
-  * nemo-file.c: Only append .desktop to desktop files when they actually need it.  Trusted desktop files (ones that typically get made and placed on the desktop) don't show their extension, so when you try to rename them, the new name needs .desktop appended to it.
-  * nemo-file-management-properties.glade: improve the description of the click-to-rename feature.
-  * nemo-thumbnails.c: Don't set a stack size - see:
-  * nemo-application.c: Look for already-existing desktop windows before attempting to manage the desktop.
-  * desktop: Don't rebuild the desktop any time _NET_WORKAREA changes - this can happen fairly frequently in some situations, causing crashes due to the asynchronous nature of nemo's directory loading back-end.
-  * eel-gnome-extensions.c: Use preferred terminal emulator when using "Run in terminal" to execute something.  This more or less reverts a75c26d50bba3fec1dc242b9efc03f37a06e7093 but simplifies it somewhat, adapting the function that is used in GDesktopAppInfo and adding a check for our user setting.
-  * nemo-desktop-manager.c: run layout_changed when the widget scale factor changes.  This (hopefully) handles regressions with hidpi support due to https://github.com/linuxmint/nemo/commit/c5a513468ee8c3497f0673e3ca019ccd3f409f8b.
+nemo (2.2.3-0~webupd8~trusty0) trusty; urgency=medium
 
-  [ leigh123linux ]
-  * file-undo-operations: change trashed files matching condition
+  * new upstream release
+  * disabled 31-fix-browsing-windows-networks.patch (applied upstream)
+  * refreshed 29-revert-colored-icons1.patch
 
-  [ Michael Webster ]
-  * icon view: Use the correct container size for applying margins to the icon container.  Also, make sure icon data is fully loaded before positioning items - desktop pseudo-items don't necessarily have the correct bounding boxes defined by the time layout occurs. Load this data just before trying to position the icon, rather than just after.
-  * nemo-desktop-utils: Adjustments for Gtk 3.22 changes in monitor management.  gdk_screen_get_monitor_workarea() no longer returns a valid workarea, it simply returns the geometry - see commit:
-  * nemo-desktop-manager.c: reload the desktop in an idle callback
-  * nemo-application.c: Add a whitelist for ignoring existing desktop handlers by WM_CLASS match.  By default 'conky' is in the list
+ -- Alin Andrei <webupd8@gmail.com>  Fri, 27 Jun 2014 17:12:47 +0200
 
-  [ Clement Lefebvre ]
-  * Generate additional files
+nemo (2.2.2-0~webupd8~trusty2) trusty; urgency=medium
 
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 07 Nov 2016 13:19:34 +0000
+  * added 31-fix-browsing-windows-networks.patch
 
-nemo (3.0.6) sarah; urgency=medium
+ -- Alin Andrei <webupd8@gmail.com>  Fri, 27 Jun 2014 11:12:29 +0200
 
-  [ Clement Lefebvre ]
-  * Generate action files manually (as opposed to during the build)
+nemo (2.2.2-0~webupd8~trusty1) trusty; urgency=medium
 
-  [ Michael Webster ]
-  * nemo-desktop-utils.c: return 0 for monitor index if a widget isn't realized (this can happen during configuration changes and during session startup).
-  * nemo-desktop-icon-view.c: disconnect from the same gsettings instance we connected to.
-  * nemo-desktop-manager, nemo-application: Fix some cleanup issues - disconnect from the correct objects when disposing of the desktop manager, and destroy the desktop manager earlier in nemo's destruction so there are no issues freeing the DesktopInfos.
+  * new upstream release:
+    - added 29-revert-colored-icons1.patch and 30-revert-colored-icons2.patch - 
+      reverts colored icons for the Nemo toolbar (use symbolic monochrome 
+      icons instead)
 
-  [ leigh123linux ]
-  * notebook: removed unused ifdef code
+ -- Alin Andrei <webupd8@gmail.com>  Tue, 27 May 2014 16:56:32 +0200
 
-  [ Michael Webster ]
-  * nemo-list-view.c: detach the column header menu from metadata when setting it up.  Use the actual view's layout instead.  When reacting to visible columns being changed, simplify things by iterating through the treeview column to build a new metadata list.
-  * nemo-list-view.c: Don't show trash-specific columns in the header menu.
-  * list view: Make changes to the search results view persistent. gvfs can't save metadata for the search 'folder' so we store it ourselves.
-  * eel-canvas.c: Fix touchscreen selection in icon views.
+nemo (2.2.2-0~webupd8~trusty0) trusty; urgency=medium
 
- -- Clement Lefebvre <root@linuxmint.com>  Thu, 23 Jun 2016 13:32:32 +0100
+  * new upstream release
 
-nemo (3.0.5) sarah; urgency=medium
+ -- Alin Andrei <webupd8@gmail.com>  Wed, 21 May 2014 15:20:19 +0200
 
-  [ leigh123linux ]
-  * use g_hash_table_remove_all and get rid of some callbacks
+nemo (2.2.1-0~webupd8~trusty2) trusty; urgency=medium
 
-  [ JosephMcc ]
-  * Partially revert c082595 by limiting it to only affecting desktop items
+  * 24_remove_only_show_in.patch: updated patch to add a 2 second delay to Nemo at startup, 
+    this hopefully fixing the issue with "Change desktop background" not being displayed 
+    for some users
 
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 31 May 2016 13:20:18 +0100
+ -- Alin Andrei <webupd8@gmail.com>  Tue, 02 May 2014 16:53:19 +0200
 
-nemo (3.0.4) sarah; urgency=medium
+nemo (2.2.1-0~webupd8~trusty1) trusty; urgency=medium
 
-  [ raveit65 ]
-  * add standard settings for EelEditableLabel
+  * added 28-fix-desktop-icon-style.patch - fixes black icons text (and gets the nemo 
+    desktop to be styled just like nautilus, if the theme doesn't have a specific 
+    nemo style)
 
-  [ Clement Lefebvre ]
-  * Build-depend on cinnamon-l10n
+ -- Alin Andrei <webupd8@gmail.com>  Fri, 02 May 2014 13:52:36 +0200
 
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 31 May 2016 11:31:11 +0100
+nemo (2.2.1-0~webupd8~trusty0) trusty; urgency=medium
 
-nemo (3.0.3) sarah; urgency=medium
+  * new upstream bugfix release
+  * diasble 27_fix-hidpi-mode-crash-when-using-icon-emblems-on-odd-shaped-thumbnails.patch
+    (applied upstream)
 
-  [ Clement Lefebvre ]
-  * Updated pot file
+ -- Alin Andrei <webupd8@gmail.com>  Thu, 01 May 2014 17:32:24 +0200
 
-  [ Michael Webster ]
-  * nemo-places-sidebar.c: When gtk overlay scrolling is in effect, add some padding right of the sidebar eject icons, otherwise they are covered by the scrollbar when it pops up.
+nemo (2.2.0-0~webupd8~trusty6) trusty; urgency=medium
 
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 23 May 2016 12:52:58 +0100
+  * fixed set-as-background nemo action to work with paths/filenames with spaces
+  * added 27_fix-hidpi-mode-crash-when-using-icon-emblems-on-odd-shaped-thumbnails.patch 
+    to fix https://github.com/linuxmint/nemo/issues/598
 
-nemo (3.0.2) sarah; urgency=medium
+ -- Alin Andrei <webupd8@gmail.com>  Wed, 30 Apr 2014 15:10:45 +0200
 
-  [ Clement Lefebvre ]
-  * Fixed build
+nemo (2.2.0-0~webupd8~trusty) trusty; urgency=medium
 
-  [ Michael Webster ]
-  * debian/control: depend on python3-gi
-  * fix action i18n scripts to write utf-8
+  * new upstream release
+  * refreshed 16_unity_new_documents.patch
+  * refreshed 24_remove_only_show_in.patch
+  * disabled 24_remove_only_show_in.patch, it was applied upstream
+  * disabled 25_fix_bad_positioning_of_rename_window_in_some_gtk310_views.patch, 
+    it was applied upstream
+  * disabled 26_stop_gtk_stock_deprecated_errors_for_gtk_3.10.patch, it was applied upstream
+  * depend on python-polib and python-gi
 
-  [ itzexor ]
-  * nemo-icon-view: include nemo-application.h needed in nemo_icon_view_add_file for: nemo_application_set_cache_flag nemo_application_get_singleton
-  * nemo-pathbar: use gint for slider_width instead of gint16 silences an incorrect pointer type warning.
+ -- Alin Andrei <webupd8@gmail.com>  Wed, 23 Apr 2014 14:38:38 +1000
 
-  [ Michael Webster ]
-  * nemo-list-view.c: don't explicitly unref columns anymore - they'll get handled when the tree view is destroyed.
-  * nemo-icon-container.c: Re-enable desktop type-to-select feature. Also make a couple fixes on the positioning logic for this little popup.  Where possible, it will avoid overlapping panels.
-  * desktop windows: maximize instead of relying on gdk for monitor workarea - it's inaccurate for anything but the primary monitor.
-  * nemo-icon-container.c: special case desktop windows for search popup - now that we can rely on the window being the correct size to account for panels, we can reliably position this popup off of those panels.
+nemo (2.0.8-0~webupd8~trusty3) trusty; urgency=medium
 
-  [ JosephMcc ]
-  * prefs: Don't try to hardcode a minimum size for the preferences dialog
+  * fix change background action for trusty under Unity and GNOME Shell. Not fixed 
+    for GNOME Flashback
 
-  [ Michael Webster ]
-  * Use g_themed_icon_new instead of g_themed_icon_new_with_default_fallbacks.
-  * nemo-window.c: As of 9cb9c48f59baa we maximize the desktop containers to make sure they use the correct work area as set by muffin.  This started causing the window state 'maximized' key to be set to true when opening a new nemo window.  This corrects that issue, using disable_chrome as an indicator to ignore the window - only the desktop windows set this true.
-  * nemo-window.c: fix formatting
+ -- Alin Andrei <webupd8@gmail.com>  Wed, 12 Mar 2014 14:38:38 +1000
 
- -- Clement Lefebvre <root@linuxmint.com>  Fri, 20 May 2016 12:26:51 +0100
+nemo (2.0.8-0~webupd8~trusty2) trusty; urgency=medium
 
-nemo (3.0.1) sarah; urgency=medium
+  * add 25_fix_bad_positioning_of_rename_window_in_some_gtk310_views.patch and
+    26_stop_gtk_stock_deprecated_errors_for_gtk_3.10.patch
 
-  [ JosephMcc ]
-  * pathbar: Always show the pathbar up and down arrows. Dynamically adding and removing these buttons was causing the visual style of buttons in the pathbar to break
+ -- Alin Andrei <webupd8@gmail.com>  Tue, 06 Feb 2014 14:38:38 +1000
 
-  [ Igor ]
-  * Fix segfault on changing the number of colums when in list view
-  * Fix uninitialized is_desktop flag
+nemo (2.0.8-0~webupd8~trusty) trusty; urgency=medium
 
-  [ Michal Cyprian ]
-  * Port python scripts to Python 3 - /data/extract_action_strings - /data/merge_action_strings - /files/usr/share/nemo/actions/myaction.py - all Python 2-3 compatible
+  * new upstream release:
+    - Fix passing non-latin uri's to actions
+    - Don't show custom mimetype handlers in the menu
+    - Don't crash when browser mode is off and multiple folders are selected
+    - Don't display actions for special items like desktop icons
+    - list-view: prevent name column from shrinking to uselessness
+    - Fix orphan tooltips in icon view and desktop when deleting items
 
-  [ Michael Webster ]
-  * nemo-list-view.c:  Fix initial column sizing - expand the filename column only to fill available space.  Other columns will start with their natural size.
-  * update m4 files
+ -- Alin Andrei <webupd8@gmail.com>  Tue, 26 Nov 2013 14:38:38 +1000
 
-  [ itzexor ]
-  * nemo-view: switch to nemo_get_file_by_uri so we don't get a NULL pointer if the file isn't already loaded internally.
+nemo (2.0.6-0~webupd8~trusty) trusty; urgency=medium
 
-  [ Michael Webster ]
-  * Add desktop settings action
-  * nemo-places-sidebar.c: ensure a minimum useable sidebar width when resizing windows or panes.
+  * new upstream release:
+    - Fix action string script, update nemo action translations
+    - When renaming test.folder in listview, select entire filename
 
-  [ Igor ]
-  * Set minimum size for File Management Preferences window
-  * Increase default width of File Management Preferences window
+ -- Alin Andrei <webupd8@gmail.com>  Tue, 12 Nov 2013 14:38:38 +1000
 
-  [ Michael Webster ]
-  * nemo-list-view.c: Clean up column changes - only add columns and connect to them once, remove some unnecessary checks.
-  * nemo-list-view.c: give the name column a default width that the column-double-click autosize action can use.  Otherwise it makes the name column as small as possible (the opposite what it's supposed to do, or what the other columns do)
+nemo (2.0.4-0~webupd8~saucy) saucy; urgency=medium
 
-  [ Igor ]
-  * Update suggested.gitignore
+  * new upstream release
+  * added 24_remove_only_show_in.patch
 
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 10 May 2016 16:36:23 +0100
+ -- Alin Andrei <webupd8@gmail.com>  Fri, 01 Nov 2013 14:38:38 +1000
 
-nemo (3.0.0) sarah; urgency=medium
+nemo (2.0.3-0~webupd8~precise4) precise; urgency=medium
 
-  [ lukefromdc ]
-  * GTK 3.20-fix wrong desktop size
+  * refreshed patches
+  * 12_unity_launcher_support_and_removed_cinnamon.patch: 
+    - use gnome-desktop instead of cinnamon-desktop
+    - remove "CFLAGS="$CFLAGS -Werror=unused-function -Werror=unused-variable -O3" 
+      as it breaks the Unity patch
+    - fix Unity launcher progress bar: rename nautilus_progress_info_get_current 
+      and nautilus_progress_info_get_total to nemo*
+  * disabled desktop-opens-terminal-in-home-dir.patch
+  * new patch: 19-revert-xdg-folder-path.patch
+  * new patch: 20-use-libgnome-desktop-instead-of-libcinnamon-desktop.patch
+  * new patch: 21-gsettings-use-gnome-instead-of-cinnamon.patch
+  * new patch: 22-draw-desktop-background.patch
+  * new patch: 23_use_system-file-manager_icon.patch
+  * since use-gnome-control-center.patch doesn't seem to apply when it should, add 
+    "actions" folder in debian/ with patched change-background.nemo_action and 
+    set-as-background.nemo_action
+  * depend on cinnamon-translations
+  * probably more
 
-  [ Daniel Schürmann ]
-  * Added missing includes
-  * Fix pointer types, to avoid warning
-  * Respect dbus_satisfied flag for menu enties on blank desktops
-  * Fix printf format specifier
-  * Don't draw the desktop on a cloned monitor
-  * Fix some missing cast warnings
+ -- Alin Andrei <webupd8@gmail.com>  Tue, 29 Oct 2013 14:38:38 +1000
 
-  [ Balló György ]
-  * Fix fallback style for GTK 3.20
+nemo (1.8.5-0~13.4~ppa0) raring; urgency=low
 
-  [ raveit65 ]
-  * add style class nemo-window-pane
-  * add style class nemo-properties-dialog to glade file
+  * New upstream release
 
-  [ Dustin Falgout ]
-  * add style class in nemo_desktop_window_init (same as nautilus)
-  * add style class to places sidebar
-  * add style class to nemo-window
-  * use more specific class name for places sidebar
+ -- Jacob Zimmermann <ppa@jzimm.net>  Wed, 21 Aug 2013 10:31:03 +1000
 
-  [ Michael Webster ]
-  * nemo-icon-info.c: remove invalid GTK_ICON_LOOKUP_GENERIC_FALLBACK flag (triggers warnings in gtk 3.20.x). (credit to @itzexor)
+nemo (1.8.3-0~13.4~ppa1) raring; urgency=low
 
-  [ itzexor ]
-  * nemo-window: add new flag NEMO_WINDOW_OPEN_FLAG_SEARCH and use the same slot if this flag is passed to nemo_window_slot_open_location_full to avoid opening a new window (and a crash) when starting a search with the open in new window preference enabled
-  * fix typo
+  * Removed -flto -Ofast as it seems to cause crashes
+  * Added ignore-new = True to gbp.conf
 
-  [ Clement Lefebvre ]
-  * Updated makepot and pot file
+ -- Jacob Zimmermann <ppa@jzimm.net>  Thu, 20 Jun 2013 22:24:53 +1000
 
- -- Clement Lefebvre <root@linuxmint.com>  Sun, 24 Apr 2016 12:41:50 +0100
+nemo (1.8.3-0~13.4~ppa0) raring; urgency=low
 
-nemo (2.8.7) rosa; urgency=medium
+  * New upstream release 
 
-  [ Michael Webster ]
-  * improve context menu toggle: - shows separate distinct regions of the menu item now - tooltip manifests as right-justified text next to the toggle icon
+ -- Jacob Zimmermann <ppa@jzimm.net>  Mon, 03 Jun 2013 11:01:07 +1000
 
-  [ monsta ]
-  * use g_strcmp0 instead of unsafe strcmp
+nemo (1.8.2-0~13.4~ppa0) raring; urgency=low
 
-  [ itzexor ]
-  * file: don't crash when the original file path has reserved characters https://git.gnome.org/browse/nautilus/commit/?id=d69885bd67edc1fae76c790f6162807817d63b2f
-  * file-operations: Make sure to use correct filename when restoring from Trash https://git.gnome.org/browse/nautilus/commit/libnautilus-private/nautilus-file-operations.c?id=ecee8be850b8342c804de2ecc3e613b99a20a010
-  * file-utils: ensure directories exist before restoring from trash https://git.gnome.org/browse/nautilus/commit/?id=f1cb32831df32009f7e8bd5fcc35c5ccdf64eee4
+  * New upstream release
 
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 07 Mar 2016 17:19:06 +0000
+ -- Jacob Zimmermann <ppa@jzimm.net>  Mon, 20 May 2013 11:26:30 +1000
 
-nemo (2.8.6) rosa; urgency=medium
+nemo (1.8.1+rpkg-0~13.4~ppa0) raring; urgency=low
 
-  [ Michael Webster ]
-  * nemo-view.c: Fix Open context menu entry not updating its label when a new selection is made.  Also, fix tracking the context toggle when the menu has scroll bars.
-  * nemo-view: fix invalid View reference when view types change, and the tooltip is updated for the context menu toggle.
+  * Source code repackaged, removing the bundled debian directory
+  * Added desktop-opens-terminal-in-home-dir.patch
 
- -- Clement Lefebvre <root@linuxmint.com>  Fri, 27 Nov 2015 09:59:44 +0000
+ -- Jacob Zimmermann <ppa@jzimm.net>  Mon, 13 May 2013 12:44:39 +1000
 
-nemo (2.8.5) rosa; urgency=medium
+nemo (1.8.1-0~13.4~ppa0) raring; urgency=low
 
-  [ Michael Webster ]
-  * list view, icon view: Don't trigger click-on-rename until button release, in order to preserve the possibility of dragging an already-selected single item.
-  * icon-view/container: fix click-to-rename issue where selection count was not up-to-date, requiring an extra click to trigger a rename after selecting a single icon from having no selection previously.
-  * bookmarks: Fix crashing and inconsistent behavior when working with remote bookmarks.
-  * nemo-icon-container: prevent interactive search on the desktop.
+  * New upstream release
 
- -- Clement Lefebvre <root@linuxmint.com>  Fri, 20 Nov 2015 17:27:57 +0000
+ -- Jacob Zimmermann <ppa@jzimm.net>  Thu, 09 May 2013 23:20:06 +1000
 
-nemo (2.8.4) rosa; urgency=medium
+nemo (1.8.0-0~13.4~ppa0) raring; urgency=low
 
-  [ Michael Webster ]
-  * nemo-file-operations.c: Handle NULL NemoFiles when deciding queue - this happens in both directions when dragging/copying files to and from a Virtualbox guest or host.
+  * New upstream release
 
-  [ Clement Lefebvre ]
-  * Removed context menu option from preferences
+ -- Jacob Zimmermann <ppa@jzimm.net>  Mon, 06 May 2013 11:23:34 +1000
 
- -- Clement Lefebvre <root@linuxmint.com>  Thu, 12 Nov 2015 09:38:15 +0000
+nemo (1.7.6-0~13.4~ppa0) raring; urgency=low
 
-nemo (2.8.3) rosa; urgency=medium
+  * New upstream release
 
-  [ Michael Webster ]
-  * Add control to context menu to toggle simple/complex menu
-  * nemo-list-view: Implement click-to-rename
-  * remove nemo-directory-view-ui-light.xml (no longer needed)
+ -- Jacob Zimmermann <ppa@jzimm.net>  Sat, 04 May 2013 10:09:39 +1000
 
-  [ Clement Lefebvre ]
-  * Updated pot file
+nemo (1.7.5-0~13.4~ppa0) raring; urgency=low
 
- -- Clement Lefebvre <root@linuxmint.com>  Wed, 11 Nov 2015 18:55:34 +0000
+  * New upstream release
 
-nemo (2.8.2) rosa; urgency=medium
+ -- Jacob Zimmermann <ppa@jzimm.net>  Wed, 01 May 2013 10:27:00 +1000
 
-  [ Michael Webster ]
-  * file operations queue: refactor slightly to make it easier to manage what gets queued and what gets started immediately.
-  * nemo-window-pane.c: prevent search from appearing on desktop
-  * preferences: move context menu toggle to the top of the Display page
-  * file operations window: raise the window when another operation is added, if the window is visible (not status-iconed).
-  * click-to-rename: move logic to earlier in the click event, in a way similar to how double-clicks are handled.  Also, handle the preference change in nemo-view - this way it can be re-used later to handle list views as well.  Also, this keeps us from interacting with GSettings so much.
-  * icon view: fetch click-to-rename preference when the view is loaded, don't allow click-to-rename on read-only files.
-  * thumbnails: detect and throttle back thumbnail generation for files that are being actively updated on disk.
-  * file queue: Add some additional checks for determining whether or not to start a file operation immediately.
-  * Add option to disable queueing
-  * job queue: Refactor to reduce duplication, add debugging info, add filesystem comparison to detect false "local" paths (local paths to non-local or non-native filesystems and mounts).
-  * nemo-query-editor: fix some casts to prevent build warnings.
-  * click-to-rename: Fix accidental rename triggering with multiple selection in icon view
-  * click-to-rename: Fix previous commit (broke double-click upon initial selection.)
-  * list view: Don't clear the rename widget twice
+nemo (1.7.4-0~13.4~ppa0) raring; urgency=low
 
-  [ Clement Lefebvre ]
-  * Fixed nemo crashing when quickly clicking on two unmounted volumes in the sidebar
+  * New upstream release
 
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 09 Nov 2015 09:55:12 +0000
+ -- Jacob Zimmermann <ppa@jzimm.net>  Sun, 28 Apr 2013 10:25:58 +1000
 
-nemo (2.8.1) rosa; urgency=medium
+nemo (1.7.3-0ubuntu1~13.4~ppa1) raring; urgency=low
 
-  [ Michael Webster ]
-  * nemo-list-view.c: Fix editable not being destroyed after a canceled rename in certain instances.  This would cause the action bindings for cut/copy not to be released from the text entry box, breaking cut/copy/paste until nemo was restarted.
-  * src/nemo-extension-config-widget.c: Make "No extensions found" un-clickable like the other two lists.  (Would crash nemo when clicked)
+  * Fixed 17_static_unity_quicklist.patch
 
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 26 Oct 2015 11:44:59 +0000
+ -- Jacob Zimmermann <ppa@jzimm.net>  Wed, 17 Apr 2013 10:25:15 +1000
 
-nemo (2.8.0) rosa; urgency=medium
+nemo (1.7.3-0ubuntu1~13.4~ppa0) raring; urgency=low
 
-  [ Daniel Schürmann ]
-  * pathbar: use a private struct and use use nemo_is_[home/root/desktop]_directory()
-  * Fix compile errors
-  * Don't use hardcoded script and action paths, remove unused sys script path
-  * Used definitions from nemo-global-preferences
-  * Moved action key definition to nemo-action.h to be external usable
-  * Show comment as tooltips for actions in action config, and improve comments for some actions.
-  * all: remove nemo_window_slot_go_to()
-  * Combine the search bar and query editor
-  * Added search_is_not_empty, to fixe a segfault in treelist
+  * New upstream release
 
-  [ Jonathan DePrizio ]
-  * Only include the domain if the method is SMB
+ -- Jacob Zimmermann <ppa@jzimm.net>  Tue, 16 Apr 2013 09:00:01 +1000
 
-  [ Monsta ]
-  * bumped some deps and build-deps
+nemo (1.7.2-0ubuntu1~13.4~ppa4) raring; urgency=low
 
-  [ AlirezaNaghizadeh ]
-  * quick rename
-  * quick rename
+  * Added patch 15_use_ubuntu_help.patch
 
-  [ pyecs ]
-  * Fix default sort order bug in list view
+ -- Jacob Zimmermann <ppa@jzimm.net>  Mon, 15 Apr 2013 13:02:15 +1000
 
-  [ Michael Webster ]
-  * nemo-places-sidebar.c: Fix a couple of drag-and-drop issues when there are no bookmarks, or when the xdg-bookmark area is empty.
-  * nemo-places-sidebar.c: Fix a memory leak.
-  * connect-to-server: remember the last connection type.
-  * nemo-list-view.c: Fix column sorting when default sort type is "Detailed type"
-  * nemo-connect-server-dialog.c: Fix previous commit.
-  * fix build warning, missing prototype.
-  * Fix some build warnings
-  * nemo-window-pane.c: Fix crash during location entry.
-  * fix indentation
+nemo (1.7.2-0ubuntu1~13.4~ppa3) raring; urgency=low
 
-  [ Clement Lefebvre ]
-  * Don't assign the position of the last closed window to the first opened window (it would be really confusing if it worked.. and it didn't really work since gtk_application_get_windows() seemed to also count the desktop window)
-  * Prefs: Rephrase quickrename option
-  * nemo-action-config-widget.c: Localize non-localized comment string
-  * Updated pot file
+  * Fixed "Open a New Window" option
 
-  [ Corbin ]
-  * Re-add revealer animation on search bar
-  * Fix Query Editor Row not displaying
+ -- Jacob Zimmermann <ppa@jzimm.net>  Sun, 14 Apr 2013 15:33:56 +1000
 
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 20 Oct 2015 10:32:51 +0100
+nemo (1.7.2-0ubuntu1~13.4~ppa2) raring; urgency=low
 
-nemo (2.6.7) rafaela; urgency=medium
+  * Patch use-gnome-control-center.patch
 
-  [ Michael Webster ]
-  * progress window: simplify slightly, have info widgets manage themselves more, to prevent having a race condition at certain stages of the file operation.
+ -- Jacob Zimmermann <ppa@jzimm.net>  Fri, 12 Apr 2013 12:16:25 +1000
 
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 22 Jun 2015 23:35:49 +0200
+nemo (1.7.2-0ubuntu1~13.4~ppa1) raring; urgency=low
 
-nemo (2.6.6) rafaela; urgency=medium
+  * Use button style for pathbar buttons
 
-  [ Michael Webster ]
-  * Switch from .svg to .png format for the file operation tray icon. Scalable/symbolic isn't supported in gtk 3.12(+?)
-  * open-with dialog: Fix focus and user interaction issues - - Focus defaults to the custom entry box - Enter key (or double-clicking in the list) will now 'OK' the dialog,   and open the file with either the selected program, or the custom   command. - The ok button now greys out if there is an invalid custom entry - Removed misleading program-picker button label and image.
-  * preferences: tweak style a bit to match c-s
-  * nemo-extensions-list: Don't hardcode lib path
-  * nemo-view, nemo-sidebar: quiet warnings when looking for network locations
+ -- Jacob Zimmermann <ppa@jzimm.net>  Fri, 12 Apr 2013 12:07:05 +1000
 
- -- Clement Lefebvre <root@linuxmint.com>  Sun, 14 Jun 2015 12:42:06 +0200
+nemo (1.7.2-0ubuntu1~13.4~ppa0) raring; urgency=low
 
-nemo (2.6.5) rafaela; urgency=medium
+  * Switched to quilt format
+  * Imported unity patches
+  * Standards to 3.9.4
+  * Don't depend on cinnamon
+  * nemo depends on nemo-data by source:Version, not binary:Version
+  * Build-depend on libunity-dev
+  * Imported zeitgeist patch 
+  * Added ubuntu-ui-fixes.patch
 
-  [ leigh123linux ]
-  * add runtime requirement for libcinnamon-desktop4
+ -- Jacob Zimmermann <ppa@jzimm.net>  Thu, 11 Apr 2013 23:30:05 +1000
 
-  [ mtwebster ]
-  * Fix a couple build warnings
-  * nemo-application: register with org.gnome.SessionManager - this should fix the race condition where c-s-d dies before nemo does, causing all of our icons to revert to fallbacks briefly.
+nemo (1.1.2-0ubuntu1~raring1) raring; urgency=medium
 
- -- Clement Lefebvre <root@linuxmint.com>  Wed, 27 May 2015 10:25:57 +0200
+  * PPA build
 
-nemo (2.6.4) rafaela; urgency=medium
-
-  [ Michael Webster ]
-  * menus: Always show icons in Open With and Templates submenus.
-  * nemo-bookmark-list: make sure to keep the bookmarks file writable by the user (and not just root) when running nemo as root.
-  * fix build warning, fix prototype name.
-
-  [ leigh123linux ]
-  * Update version for cinnamon-desktop build dep
-
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 25 May 2015 10:40:14 +0200
-
-nemo (2.6.3) rafaela; urgency=medium
-
-  [ leigh123linux ]
-  * update cinnamon-desktop min version
-  * bump it again
-
- -- Clement Lefebvre <root@linuxmint.com>  Thu, 21 May 2015 12:44:03 +0200
-
-nemo (2.6.2) rafaela; urgency=medium
-
-  [ Clement Lefebvre ]
-  * Gettext fix: Due to genre/plural, in many languages, adjectives are not translatable on their own. They need to relate to a noun.
-  * Gettext: Simplified msgids in file operation queue to make them easier to translate
-  * Updated pot
-
-  [ Michael Webster ]
-  * Adapt Nemo to deal with problem situations with the user thumbnail cache: - Added --fix-cache command line option (must be run as root) - Added quick check at startup to detect major problems and disable thumbnailing   until fixed. - Individual thumbnailed files are checked on the fly for permission issues. - When a problem is detected, an infobar appears, offering to fix the problem, or   ignore it.
-  * Have 'dismiss' last for Nemo's lifespan.
-  * thumbnails: Remove an orphan comment from previous commits, fix wording of the --fix-cache command-line option.
-
- -- Clement Lefebvre <root@linuxmint.com>  Thu, 21 May 2015 11:06:16 +0200
-
-nemo (2.6.1) rafaela; urgency=medium
-
-  * Packaging: Fixed hardcoded gir typelib path
-
- -- Clement Lefebvre <root@linuxmint.com>  Wed, 20 May 2015 09:26:24 +0200
-
-nemo (2.6.0) rafaela; urgency=medium
-
-  * 2.6.0 
-
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 19 May 2015 17:34:50 +0200
-
-nemo (2.5.1) unstable; urgency=medium
-
-  * 2.5.x
-
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 19 Jan 2015 16:55:00 +0100
-
-nemo (2.4.4) rebecca; urgency=medium
-
-  * list-view: Don't reset zoom level when syncing statusbar zoom widget state.
-
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 24 Nov 2014 09:11:57 +0100
-
-nemo (2.4.3) rebecca; urgency=medium
-
-  * Never allow root nemo to manage the desktop.
-
- -- Clement Lefebvre <root@linuxmint.com>  Sat, 22 Nov 2014 17:17:30 +0100
-
-nemo (2.4.2) rebecca; urgency=medium
-
-  * icon-container: Fix regression when renaming files in certain views -
-  * Revert "places sidebar: set cells to a fixed height, seems to prevent residual"
-
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 11 Nov 2014 22:35:46 +0100
-
-nemo (2.4.1) rebecca; urgency=medium
-
-  * Show UP button by default in the toolbar
-  * Re-enabled the right click context menu on nemo toolbar navigation buttons
-  * Recent files: show same open-with entries as normal folders
-  * Sidebar: Fix expander state
-  * Sidebar: workaround for icon render issue.  Don't allow the tree view to be unrestrained vertically.
-  * Places sidebar: set cells to a fixed height, seems to prevent residual render issues
-
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 11 Nov 2014 11:07:57 +0100
-
-nemo (2.4.0) rebecca; urgency=medium
-
-  * 2.4.0
-
- -- Clement Lefebvre <root@linuxmint.com>  Fri, 31 Oct 2014 16:23:56 +0100
-
-nemo (2.3.0) unstable; urgency=medium
-
-  * 2.3.0
-
- -- Clement Lefebvre <root@linuxmint.com>  Fri, 27 Jun 2014 14:44:35 +0100
-
-nemo (2.2.3) qiana; urgency=medium
-
-  * Merging debian/patches
-  * Show unmount progress notifications when ejecting a drive
-  * Fix #627 - crash when unmounting archives.  This is a temporary fix - pull request coming for permanent fix.
-  * places-sidebar: render eject icon correctly in hidpi
-  * Open-with dialog: Bugfix (Fixes #631) and a few improvements
-  * nemo-links: add desktop file hack for desktop session names.
-  * Fix sample nemo action to work with filenames with spaces.
-  * Really fix the sample action
-  * Clean up orphaned gtk bookmarks at startup.
-  * Revert "Clean up orphaned gtk bookmarks at startup."
-  * nemo-actions: Add flag to escape spaces in file paths.
-  * Use GtkRevealer for search bar.
-  * nemo-file: compare_by_display_name - handle null strings gracefully.
-
- -- Clement Lefebvre <root@linuxmint.com>  Fri, 27 Jun 2014 14:43:10 +0100
-
-nemo (2.2.2) qiana; urgency=medium
-
-  * 2.2.2
-
- -- Clement Lefebvre <root@linuxmint.com>  Wed, 21 May 2014 12:36:20 +0100
-
-nemo (2.2.1) qiana; urgency=medium
-
-  * 2.2.1
-
- -- Clement Lefebvre <root@linuxmint.com>  Thu, 01 May 2014 14:35:34 +0100
-
-nemo (2.2.0) qiana; urgency=medium
-
-  * 2.2.0
-
- -- Clement Lefebvre <root@linuxmint.com>  Sat, 12 Apr 2014 15:50:14 +0100
-
-nemo (2.0.8) petra; urgency=low
-
-  * 2.0.8
-
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 25 Nov 2013 18:37:31 +0000
-
-nemo (2.0.7) petra; urgency=low
-
-  * 2.0.7
-
- -- Clement Lefebvre <root@linuxmint.com>  Sat, 23 Nov 2013 13:39:58 +0000
-
-nemo (2.0.6) petra; urgency=low
-
-  * 2.0.6
-
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 11 Nov 2013 13:42:09 +0000
-
-nemo (2.0.5) petra; urgency=low
-
-  * 2.0.5
-
- -- Clement Lefebvre <root@linuxmint.com>  Sun, 03 Nov 2013 15:53:05 +0000
-
-nemo (2.0.4) petra; urgency=low
-
-  * 2.0.4
-
- -- Clement Lefebvre <root@linuxmint.com>  Thu, 31 Oct 2013 13:32:20 +0000
-
-nemo (2.0.3) petra; urgency=low
-
-  * 2.0.3
-
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 29 Oct 2013 10:40:51 +0000
-
-nemo (2.0.2) petra; urgency=low
-
-  * 2.0.2
-
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 22 Oct 2013 14:20:41 +0100
-
-nemo (2.0.1) petra; urgency=low
-
-  * 2.0.1
-
- -- Clement Lefebvre <root@linuxmint.com>  Fri, 18 Oct 2013 15:57:39 +0100
-
-nemo (2.0.0) petra; urgency=low
-
-  * 2.0.0
-
- -- Clement Lefebvre <root@linuxmint.com>  Wed, 02 Oct 2013 16:36:43 +0100
-
-nemo (1.9.1) petra; urgency=low
-
-  * 1.9.1
-
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 30 Sep 2013 14:21:12 +0100
-
-nemo (1.8.5) olivia; urgency=low
-
-  * 1.8.5
-
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 20 Aug 2013 14:07:52 +0100
-
-nemo (1.8.4) olivia; urgency=low
-
-  * 1.8.4
-
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 09 Jul 2013 17:12:40 +0200
-
-nemo (1.8.3) olivia; urgency=low
-
-  * 1.8.3
-
- -- Clement Lefebvre <root@linuxmint.com>  Sat, 01 Jun 2013 12:55:17 +0100
-
-nemo (1.8.2) olivia; urgency=low
-
-  * 1.8.2
-
- -- Clement Lefebvre <root@linuxmint.com>  Sun, 19 May 2013 21:08:35 +0100
-
-nemo (1.8.1) olivia; urgency=low
-
-  * 1.8.1
-
- -- Clement Lefebvre <root@linuxmint.com>  Thu, 09 May 2013 13:29:40 +0100
-
-nemo (1.8.0) olivia; urgency=low
-
-  * 1.8.0
-
- -- Clement Lefebvre <root@linuxmint.com>  Sun, 05 May 2013 13:21:54 +0100
-
-nemo (1.7.6) olivia; urgency=low
-
-  * 1.7.6
-
- -- Clement Lefebvre <root@linuxmint.com>  Fri, 03 May 2013 17:07:54 +0100
-
-nemo (1.7.5) olivia; urgency=low
-
-  * 1.7.5
-
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 30 Apr 2013 16:45:52 +0100
-
-nemo (1.7.4) olivia; urgency=low
-
-  * 1.7.4
-
- -- Clement Lefebvre <root@linuxmint.com>  Sat, 27 Apr 2013 20:03:25 +0100
-
-nemo (1.7.3) olivia; urgency=low
-
-  * 1.7.3
-
- -- Clement Lefebvre <root@linuxmint.com>  Mon, 15 Apr 2013 14:56:37 +0100
-
-nemo (1.7.2) olivia; urgency=low
-
-  * 1.7.2
-
- -- Clement Lefebvre <root@linuxmint.com>  Fri, 22 Mar 2013 14:07:10 +0000
-
-nemo (1.7.1) olivia; urgency=low
-
-  * 1.7.1
-
- -- Clement Lefebvre <root@linuxmint.com>  Tue, 19 Feb 2013 16:29:56 +0000
+ -- Gwendal Le Bihan <gwendal.lebihan.dev@gmail.com>  Wed, 14 Nov 2012 13:07:21 +0100
 
 nemo (1.1.2) nadia; urgency=low
 
